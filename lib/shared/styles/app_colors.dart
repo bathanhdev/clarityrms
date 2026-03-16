@@ -4,15 +4,16 @@ class AppColors {
   AppColors._();
 
   // Raw colors (Tailwind-like palette)
-  static const Color primary = Color(0xFF6366F1); // Indigo 500
-  static const Color primaryLight = Color(0xFF818CF8);
-  static const Color primaryDark = Color(0xFF4F46E5);
+  // Brand blue (Brightened further per request)
+  static const Color primary = Color(0xFF2A78FF);
+  static const Color primaryLight = Color(0xFF86C8FF);
+  static const Color primaryDark = Color(0xFF0A59B0);
   static const Color primaryLowSat = Color(
-    0xFFA5B4FC,
-  ); // Indigo 300 cho Dark Mode
+    0xFFBFE0FF,
+  ); // Lighter blue for dark mode variants
 
-  static const Color secondary = Color(0xFF10B981); // Emerald 500
-  static const Color secondaryDark = Color(0xFF059669);
+  static const Color secondary = Color(0xFF06D6A0); // green accent
+  static const Color secondaryDark = Color(0xFF05A67A);
 
   static const Color error = Color(0xFFEF4444); // Red 500
   static const Color success = Color(0xFF22C55E); // Green 500
@@ -34,6 +35,9 @@ class AppColors {
   static const Color darkTextSecondary = Color(0xFF94A3B8); // Slate 400
   static const Color darkOutline = Color(0xFF334155); // Slate 700
 
+  // Standard shadow tone used across the UI (subtle)
+  static const Color shadow = Color(0x0F000000);
+
   // Color schemes
 
   /// ColorScheme for Light Mode
@@ -45,10 +49,10 @@ class AppColors {
     onPrimaryContainer: primaryDark,
 
     // Success dùng làm Secondary
-    secondary: success,
+    secondary: secondary,
     onSecondary: Colors.white,
-    secondaryContainer: Color(0xFFDCFCE7),
-    onSecondaryContainer: Color(0xFF166534),
+    secondaryContainer: Color(0xFFE6FBF0),
+    onSecondaryContainer: Color(0xFF064E3B),
 
     // Warning dùng làm Tertiary
     tertiary: warning,
@@ -75,9 +79,9 @@ class AppColors {
   static const ColorScheme darkScheme = ColorScheme(
     brightness: Brightness.dark,
     primary: primaryLowSat,
-    onPrimary: Color(0xFF1E1B4B),
-    primaryContainer: Color(0xFF312E81),
-    onPrimaryContainer: Color(0xFFE0E7FF),
+    onPrimary: Color(0xFF052033),
+    primaryContainer: primaryDark,
+    onPrimaryContainer: Color(0xFFE6F6FF),
 
     // Success dùng làm Secondary
     secondary: Color(0xFF4ADE80),

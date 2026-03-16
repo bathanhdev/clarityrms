@@ -42,6 +42,14 @@ class AppDimensions {
   static const double elevationMd = 4.0;
   static const double elevationLg = 8.0;
 
+  // Shadow helpers (blur radius / offsets) to avoid magic numbers in UI
+  static const double shadowBlurSm = 6.0;
+  static const double shadowBlurMd = 12.0;
+  static const double shadowBlurLg = 22.0;
+  static const double shadowOffsetSm = 4.0;
+  static const double shadowOffsetMd = 8.0;
+  static const double shadowOffsetLg = 10.0;
+
   // Other dimensions
   static const double minTouchTarget = 48.0;
   static const double scrollbarThickness = 8.0;

@@ -1,8 +1,14 @@
-// ignore: unused_import
+import 'package:clarityrms/core/router/app_router.dart';
 import 'package:clarityrms/core/ui/app_dimensions.dart';
-import 'package:clarityrms/core/ui/app_spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:clarityrms/core/ui/app_spacing.dart';
+import 'package:clarityrms/shared/widgets/transparent_app_bar.dart';
+import 'package:clarityrms/core/ui/app_radius.dart';
 import 'package:clarityrms/core/infrastructure/helpers/ui_helper.dart';
+import 'package:clarityrms/shared/generated/assets.gen.dart';
+import 'package:clarityrms/shared/widgets/common_button.dart';
+import 'package:clarityrms/shared/constants/hero_tags.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -18,6 +24,16 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirm = TextEditingController();
 
+  void _submit() {
+    UIHelper.hideKeyboard(context);
+    if (_formKey.currentState!.validate()) {
+      UIHelper.showAppSnackBar(
+        context,
+        'Chức năng đăng ký chưa được triển khai',
+      );
+    }
+  }
+
   @override
   void dispose() {
     _username.dispose();
@@ -27,74 +43,194 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void _submit() {
-    UIHelper.hideKeyboard(context);
-    if (!_formKey.currentState!.validate()) return;
-    // Register flow not implemented yet.
-    UIHelper.showAppSnackBar(context, 'Chưa hỗ trợ đăng ký.');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          padding: AppSpacing.paddingAllLg,
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Tạo tài khoản mới',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                AppSpacing.verticalSpaceLg,
+      appBar: const TransparentAppBar(),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Theme.of(context).colorScheme.primary.withAlpha(28),
+              Theme.of(context).colorScheme.primaryContainer.withAlpha(18),
+            ],
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: AppSpacing.screenPadding,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: AppRadius.borderRadiusMd,
+              ),
+              elevation: 8,
+              child: Padding(
+                padding: AppSpacing.screenPadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Hero(
+                            tag: HeroTags.appLogo,
+                            child: Assets.images.logo.image(
+                              height: AppDimensions.logoSize * 0.75,
+                            ),
+                          ),
+                          AppSpacing.verticalSpaceSm,
+                          Text(
+                            'Tạo tài khoản mới',
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          ),
+                          AppSpacing.verticalSpaceXs,
+                          Text(
+                            'Tạo tài khoản để bắt đầu sử dụng ứng dụng',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
 
-                TextFormField(
-                  controller: _username,
-                  decoration: const InputDecoration(
-                    labelText: 'Tên người dùng',
-                  ),
-                  validator: (v) => (v == null || v.isEmpty)
-                      ? 'Vui lòng nhập tên người dùng'
-                      : null,
+                    SizedBox(height: AppSpacing.lg),
+
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: _username,
+                            decoration: const InputDecoration(
+                              labelText: 'Tên người dùng',
+                              prefixIcon: Icon(Icons.person),
+                            ),
+                            validator: (v) => (v == null || v.isEmpty)
+                                ? 'Vui lòng nhập tên người dùng'
+                                : null,
+                          ),
+                          AppSpacing.verticalSpaceMd,
+                          TextFormField(
+                            controller: _email,
+                            decoration: const InputDecoration(
+                              labelText: 'Email',
+                              prefixIcon: Icon(Icons.email),
+                            ),
+                            validator: (v) => (v == null || v.isEmpty)
+                                ? 'Vui lòng nhập email'
+                                : null,
+                          ),
+                          AppSpacing.verticalSpaceMd,
+                          TextFormField(
+                            controller: _password,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              labelText: 'Mật khẩu',
+                              prefixIcon: Icon(Icons.lock),
+                            ),
+                            validator: (v) => (v == null || v.length < 6)
+                                ? 'Mật khẩu ít nhất 6 ký tự'
+                                : null,
+                          ),
+                          AppSpacing.verticalSpaceMd,
+                          TextFormField(
+                            controller: _confirm,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              labelText: 'Xác nhận mật khẩu',
+                              prefixIcon: Icon(Icons.lock_outline),
+                            ),
+                            validator: (v) => (v != _password.text)
+                                ? 'Mật khẩu không khớp'
+                                : null,
+                          ),
+                          AppSpacing.verticalSpaceLg,
+
+                          SizedBox(
+                            width: double.maxFinite,
+                            child: CommonButton(
+                              expanded: true,
+                              variant: CommonButtonVariant.filled,
+                              label: const Text('Đăng ký'),
+                              onPressed: _submit,
+                            ),
+                          ),
+
+                          AppSpacing.verticalSpaceLg,
+
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                              Padding(
+                                padding: AppSpacing.paddingHorizontalSm,
+                                child: Text('Hoặc'),
+                              ),
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+
+                          AppSpacing.verticalSpaceMd,
+
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  onPressed: () {
+                                    UIHelper.showAppSnackBar(
+                                      context,
+                                      'Đăng ký với Google tạm thời chưa hỗ trợ',
+                                    );
+                                  },
+                                  icon: const Icon(Icons.login),
+                                  label: const Text('Google'),
+                                ),
+                              ),
+                              AppSpacing.horizontalSpaceMd,
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  onPressed: () {
+                                    UIHelper.showAppSnackBar(
+                                      context,
+                                      'Đăng ký với Facebook tạm thời chưa hỗ trợ',
+                                    );
+                                  },
+                                  icon: const Icon(Icons.login),
+                                  label: const Text('Facebook'),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          AppSpacing.verticalSpaceLg,
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Đã có tài khoản?'),
+                              TextButton(
+                                onPressed: () => GoRouter.of(
+                                  context,
+                                ).replace(AppRouter.login),
+                                child: const Text('Đăng nhập'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                AppSpacing.verticalSpaceMd,
-                TextFormField(
-                  controller: _email,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  validator: (v) =>
-                      (v == null || v.isEmpty) ? 'Vui lòng nhập email' : null,
-                ),
-                AppSpacing.verticalSpaceMd,
-                TextFormField(
-                  controller: _password,
-                  obscureText: true,
-                  decoration: const InputDecoration(labelText: 'Mật khẩu'),
-                  validator: (v) => (v == null || v.length < 6)
-                      ? 'Mật khẩu ít nhất 6 ký tự'
-                      : null,
-                ),
-                AppSpacing.verticalSpaceMd,
-                TextFormField(
-                  controller: _confirm,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Xác nhận mật khẩu',
-                  ),
-                  validator: (v) =>
-                      (v != _password.text) ? 'Mật khẩu không khớp' : null,
-                ),
-                AppSpacing.verticalSpaceLg,
-                SizedBox(
-                  width: double.maxFinite,
-                  child: ElevatedButton(
-                    onPressed: _submit,
-                    child: const Text('Đăng ký'),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
