@@ -19,21 +19,37 @@ Bạn là chuyên gia Flutter/Dart cho dự án Clarity RMS. Hãy tuân thủ ng
 
 ### **Quy tắc UI Tokens (Bắt buộc)**
 
-- **Mọi giá trị giao diện không được hard-coded**: Tất cả padding, margin, kích thước icon, radius, chiều cao nút, khoảng cách, và các giá trị kích thước giao diện khác phải dùng hằng số/ token trong `lib/core/ui` (`AppSpacing`, `AppDimensions`, `AppRadius`, v.v.).
-- **Mọi kiểu chữ và màu sắc**: Phải dùng `lib/shared/styles` (`AppTypography`, `AppColors`, `AppTheme`) hoặc `Theme.of(context)`; không dùng màu/rgb/hard-coded font size trực tiếp trong widget.
-- **Kiểm soát ngoại lệ**: Trường hợp cần giá trị tạm thời (prototype/POC), phải chú thích rõ `// PROTOTYPE: reason` và tạo issue/PR để thay bằng token thích hợp trước khi merge.
-- **Đảm bảo tuân thủ**: Việc tuân thủ quy tắc này được thực thi qua code review; khuyến khích thêm lint hoặc script CI (ví dụ: grep/analysis rule) nếu cần để phát hiện literal số (`EdgeInsets`, `height`, `width`, `fontSize`, `radius`) trong mã nguồn giao diện.
+- **Mọi giá trị giao diện không được hard-coded**: Tất cả padding, margin, kích thước icon, radius, chiều cao nút, khoảng cách, và các giá trị kích thước giao diện khác phải dùng hằng số/token trong `lib/core/ui` (`AppSpacing`, `AppDimensions`, `AppRadius`, v.v.).
+- **Typography & Colors**: Dùng `lib/shared/styles` (`AppTypography`, `AppColors`, `AppTheme`) hoặc `Theme.of(context)`; không dùng màu/rgb/hard-coded font size trực tiếp trong widget.
+- **Kiểm soát ngoại lệ**: Trường hợp prototype/POC cần giá trị tạm thời, phải chú thích rõ `// PROTOTYPE: reason` và tạo issue/PR để chuẩn hoá trước khi merge.
+
+### Enforcement & CI
+
+- **Static analysis**: Bắt `flutter analyze` trong CI; thêm hoặc tùy chỉnh lint rules để phát hiện anti-patterns.
+- **Custom checks**: Thêm bước CI/nghiệm thu (shell script) để grep các literal số trong `lib/**/presentation/**` hoặc kiểm tra pattern dùng `AppSpacing`/`AppDimensions`.
+- **Pre-commit hooks**: Khuyến nghị pre-commit hook để phát hiện hard-coded UI numbers trước khi push.
+- **Code review checklist**: Kiểm tra `lib/core/ui` token usage, DI qua `sl`, và đảm bảo Domain không import Data.
 
 Lý do: Giữ nhất quán UI, dễ điều chỉnh toàn cục, và tránh băm vặt giá trị khiến giao diện không đồng bộ.
 
-## 2. Nguyên tắc SOLID & DRY
+## 2. Nguyên tắc SOLID & DRY (Nghiêm ngặt)
 
-- **S (Single Responsibility)**: Một Class/Widget chỉ làm một việc. Logic phức tạp phải tách ra khỏi UI.
-- **D (Dependency Inversion)**: Luôn phụ thuộc vào interface (Domain), không phụ thuộc vào implementation (Data).
-- **DRY (Don't Repeat Yourself)**:
-  - Check `lib/shared/` trước khi tạo mới.
-  - Logic dùng chung đưa vào `extensions` hoặc `utils`.
-  - UI dùng chung đưa vào `lib/shared/widgets/`.
+### **SOLID Principles**
+
+- **S (Single Responsibility)**: Mỗi Class/Widget/Function chỉ làm một việc duy nhất. Tách biệt hoàn toàn Logic (Bloc/UseCase) khỏi UI.
+- **O (Open/Closed)**: Đối tượng mở để mở rộng nhưng đóng để sửa đổi. Sử dụng `abstract class` và `interfaces` để thay đổi hành vi mà không can thiệp code lõi.
+  - Ví dụ: Đăng ký nhiều `PaymentMethod` bằng cách thêm class mới triển khai `PaymentMethodInterface` thay vì sửa `PaymentService`.
+- **L (Liskov Substitution)**: Lớp con phải có khả năng thay thế lớp cha mà không làm hỏng tính đúng đắn của chương trình. Tránh ném `UnimplementedError` khi override.
+  - Ví dụ: `MockAuthRepository` phải trả về cùng kiểu dữ liệu và cùng ràng buộc tiền/ hậu điều kiện như `RealAuthRepository`.
+- **I (Interface Segregation)**: Chia nhỏ các Interface lớn thành nhiều Interface cụ thể. Không ép module phụ thuộc vào các phương thức nó không dùng.
+  - Ví dụ: Thay vì `IUserRepository` có 12 method, tạo `UserReadRepository` và `UserWriteRepository` nếu client chỉ cần đọc dữ liệu.
+- **D (Dependency Inversion)**: Module cấp cao không phụ thuộc vào module cấp thấp. Cả hai phụ thuộc vào Abstractions. UseCase luôn gọi Repository Interface thay vì Implementation.
+
+### **DRY (Don't Repeat Yourself)**
+
+- **Centralized Components**: Kiểm tra `lib/shared/widgets/` trước khi tạo mới.
+- **Logic Reuse**: Đưa logic tính toán/định dạng lặp lại vào `extensions` hoặc `utils`.
+- **UI Reuse**: Widget nội bộ trang dùng private method `_buildXxx`, widget dùng chung cho feature đưa vào `presentation/widgets/`.
 
 ## 3. Dependency Injection (GetIt)
 
