@@ -2,6 +2,7 @@ import 'package:clarityrms/core/router/app_router.dart';
 import 'package:clarityrms/core/ui/app_dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:clarityrms/core/ui/app_spacing.dart';
+import 'package:clarityrms/shared/widgets/network_status.dart';
 import 'package:clarityrms/shared/widgets/transparent_app_bar.dart';
 import 'package:clarityrms/core/ui/app_radius.dart';
 import 'package:clarityrms/core/infrastructure/helpers/ui_helper.dart';
@@ -165,6 +166,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               onPressed: _submit,
                             ),
                           ),
+
+                          AppSpacing.verticalSpaceLg,
+
+                          const NetworkStatus(),
 
                           AppSpacing.verticalSpaceLg,
 

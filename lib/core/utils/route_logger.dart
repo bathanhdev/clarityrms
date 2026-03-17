@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// go_router import intentionally omitted for concise logging
+import 'package:go_router/go_router.dart';
 import 'package:clarityrms/core/utils/log_util.dart';
 
 /// Attempts to log the current GoRouter location and the Navigator pages stack.
@@ -39,14 +39,55 @@ class RouteLoggingObserver extends NavigatorObserver {
       final routeName = route?.settings.name ?? route?.runtimeType.toString();
       Log.d('$event: $routeName', name: 'ROUTE_LOG');
 
-      // Also attempt to log a concise stack summary (bottom->top) when available
+      // Read GoRouter location and schedule post-frame check.
       try {
-        final pagesList = route?.navigator?.widget.pages;
-        if (pagesList != null && pagesList.isNotEmpty) {
-          final names = pagesList
-              .map((p) => p.name ?? p.runtimeType.toString())
-              .toList();
-          Log.d('STACK: ${names.join('→')}', name: 'ROUTE_LOG');
+        final ctx =
+            route?.navigator?.context ?? previousRoute?.navigator?.context;
+        if (ctx != null) {
+          final goRouter = GoRouter.maybeOf(ctx);
+          if (goRouter != null) {
+            try {
+              final loc = (goRouter as dynamic).location;
+              Log.d('GoRouter.location: $loc', name: 'ROUTE_LOG');
+            } catch (_) {
+              // ignore
+            }
+          }
+
+          // Schedule post-frame read to capture updated navigator state.
+          try {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              try {
+                final pagesList = Navigator.of(ctx).widget.pages;
+                if (pagesList.isNotEmpty) {
+                  final names = pagesList
+                      .map((p) => p.name ?? p.runtimeType.toString())
+                      .toList();
+                  Log.d(
+                    'STACK(after frame): ${names.join('→')}',
+                    name: 'ROUTE_LOG',
+                  );
+                }
+              } catch (_) {
+                // ignore
+              }
+
+              try {
+                final goRouter2 = GoRouter.maybeOf(ctx);
+                if (goRouter2 != null) {
+                  final loc2 = (goRouter2 as dynamic).location;
+                  Log.d(
+                    'GoRouter.location(after frame): $loc2',
+                    name: 'ROUTE_LOG',
+                  );
+                }
+              } catch (_) {
+                // ignore
+              }
+            });
+          } catch (_) {
+            // ignore
+          }
         }
       } catch (_) {
         // ignore

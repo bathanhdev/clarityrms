@@ -9,6 +9,7 @@ import 'package:clarityrms/shared/constants/hero_tags.dart';
 import 'package:flutter/material.dart';
 import 'package:clarityrms/shared/widgets/common_button.dart';
 import 'package:go_router/go_router.dart';
+import 'package:clarityrms/shared/widgets/network_status.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -116,6 +117,9 @@ class AuthPage extends StatelessWidget {
                             style: textTheme.bodyMedium,
                             textAlign: TextAlign.center,
                           ),
+
+                          const NetworkStatus(),
+
                           AppSpacing.verticalSpaceLg,
 
                           CommonButton(

@@ -4,7 +4,7 @@ import 'package:clarityrms/core/ui/app_spacing.dart';
 import 'package:clarityrms/core/ui/app_radius.dart';
 import 'package:clarityrms/core/global_state/auth/auth_cubit.dart';
 import 'package:clarityrms/core/global_state/auth/auth_state.dart';
-import 'package:clarityrms/core/global_state/network/network_cubit.dart';
+import 'package:clarityrms/shared/widgets/network_status.dart';
 import 'package:clarityrms/core/infrastructure/helpers/ui_helper.dart';
 import 'package:clarityrms/shared/generated/assets.gen.dart';
 import 'package:clarityrms/core/ui/app_dimensions.dart';
@@ -51,28 +51,6 @@ class _LoginPageState extends State<LoginPage> {
         label: const Text('Đăng nhập'),
         onPressed: isLoading ? null : _performLogin,
       ),
-    );
-  }
-
-  Widget _buildNetworkStatus(BuildContext context) {
-    return BlocBuilder<NetworkCubit, NetworkState>(
-      builder: (context, state) {
-        if (state is NetworkDisconnected) {
-          return Row(
-            children: [
-              Icon(Icons.wifi_off, color: Theme.of(context).colorScheme.error),
-              AppSpacing.horizontalSpaceSm,
-              Expanded(
-                child: Text(
-                  'Mất kết nối mạng. Vui lòng kiểm tra lại.',
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
-                ),
-              ),
-            ],
-          );
-        }
-        return const SizedBox.shrink();
-      },
     );
   }
 
@@ -231,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
 
                             AppSpacing.verticalSpaceMd,
 
-                            _buildNetworkStatus(context),
+                            const NetworkStatus(),
 
                             AppSpacing.verticalSpaceLg,
 
