@@ -2,7 +2,7 @@ import 'package:clarityrms/core/di/locator.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:clarityrms/core/utils/log_util.dart';
+// import 'package:clarityrms/core/utils/log_util.dart'; // kept commented for future use if needed
 
 // Uses centralized service locator `sl` (lib/core/di/locator.dart)
 
@@ -31,7 +31,6 @@ class StorageModule {
       sl.registerLazySingleton<HiveInterface>(() => Hive);
     }
 
-    // Log once after storage backends are ready
-    Log.d('Storage services initialized.', name: 'STORAGE');
+    // Storage backends are ready (no verbose log to reduce noise)
   }
 }

@@ -5,10 +5,10 @@ import 'package:clarityrms/core/ui/app_dimensions.dart';
 class AppTypography {
   AppTypography._();
 
-  // Font family: base text style using BeVietnamPro
+  // Font family: kiểu chữ cơ sở dùng BeVietnamPro
   static final TextStyle _baseInter = GoogleFonts.beVietnamPro();
 
-  // Display - very large text
+  // Display - chữ rất lớn
   static final TextStyle displayLarge = _baseInter.copyWith(
     fontSize: AppDimensions.fontSizeDisplayLarge,
     fontWeight: FontWeight.w400,
@@ -25,7 +25,7 @@ class AppTypography {
     fontWeight: FontWeight.w400,
   );
 
-  // Headline - large titles
+  // Headline - tiêu đề lớn
   static final TextStyle headlineLarge = _baseInter.copyWith(
     fontSize: AppDimensions.fontSizeHeadlineLarge,
     fontWeight: FontWeight.bold,
@@ -41,7 +41,7 @@ class AppTypography {
     fontWeight: FontWeight.w600,
   );
 
-  // Title - medium titles (AppBar, Card)
+  // Title - tiêu đề trung (AppBar, Card)
   static final TextStyle titleLarge = _baseInter.copyWith(
     fontSize: AppDimensions.fontSizeTitleLarge,
     fontWeight: FontWeight.w600,
@@ -59,7 +59,7 @@ class AppTypography {
     letterSpacing: 0.1,
   );
 
-  // Body - content text
+  // Body - chữ nội dung
   static final TextStyle bodyLarge = _baseInter.copyWith(
     fontSize: AppDimensions.fontSizeBodyLarge,
     fontWeight: FontWeight.w400,
@@ -78,7 +78,7 @@ class AppTypography {
     letterSpacing: 0.4,
   );
 
-  // Label - labels (Button, Badge)
+  // Label - chữ nhãn (Button, Badge)
   static final TextStyle labelLarge = _baseInter.copyWith(
     fontSize: AppDimensions.fontSizeLabelLarge,
     fontWeight: FontWeight.bold,
@@ -97,7 +97,7 @@ class AppTypography {
     letterSpacing: 0.5,
   );
 
-  // TextTheme builders
+  // Tạo `TextTheme`
 
   static TextTheme get lightTextTheme {
     return TextTheme(

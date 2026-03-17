@@ -10,11 +10,11 @@ class AppSpacing {
   static const double none = 0.0;
   static const double xxs = 2.0;
   static const double xs = 4.0;
-  static const double sm = 8.0; // Small
+  static const double sm = 8.0; // Nhỏ
   static const double s12 = 12.0; // Bổ sung cho Padding linh hoạt
-  static const double md = 16.0; // Medium (Tiêu chuẩn màn hình)
-  static const double lg = 24.0; // Large
-  static const double xl = 32.0; // Extra Large
+  static const double md = 16.0; // Trung
+  static const double lg = 24.0; // Lớn
+  static const double xl = 32.0; // Rất lớn
   static const double xxl = 48.0;
   static const double xxxl = 64.0;
 

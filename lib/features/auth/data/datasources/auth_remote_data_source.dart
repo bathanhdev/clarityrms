@@ -22,9 +22,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   AuthRemoteDataSourceImpl({required this.dio});
 
-  // ==========================================================
   // 1. LOGIN
-  // ==========================================================
   @override
   Future<AuthModel> login(String username, String password) async {
     try {
@@ -51,9 +49,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
-  // ==========================================================
   // 2. REFRESH TOKEN
-  // ==========================================================
   @override
   Future<AuthModel> refreshToken(String refreshToken) async {
     try {
@@ -82,9 +78,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
-  // ==========================================================
   // 3. LOGOUT
-  // ==========================================================
   @override
   Future<void> logout() async {
     try {

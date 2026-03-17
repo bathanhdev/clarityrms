@@ -7,6 +7,7 @@ import 'package:clarityrms/shared/styles/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clarityrms/core/di/locator.dart';
+import 'package:clarityrms/core/global_state/theme/theme_cubit.dart';
 
 /// Widget cấp cao nhất của ứng dụng.
 class MyApp extends StatelessWidget {
@@ -30,20 +31,26 @@ class MyApp extends StatelessWidget {
           create: (context) => sl<AuthCubit>()..appStarted(),
           lazy: false,
         ),
+        // 3. Cung cấp ThemeCubit
+        BlocProvider<ThemeCubit>(create: (_) => sl<ThemeCubit>(), lazy: false),
       ],
       // SỬ DỤNG MaterialApp.router
       child: GestureDetector(
         onTap: () => UIHelper.hideKeyboard(context),
-        child: MaterialApp.router(
-          title: 'ClarityRMS',
-          debugShowMaterialGrid: false,
-          debugShowCheckedModeBanner: false,
+        child: BlocBuilder<ThemeCubit, ThemeMode>(
+          builder: (context, themeMode) {
+            return MaterialApp.router(
+              title: 'ClarityRMS',
+              debugShowMaterialGrid: false,
+              debugShowCheckedModeBanner: false,
 
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: ThemeMode.system,
+              theme: AppTheme.light,
+              darkTheme: AppTheme.dark,
+              themeMode: themeMode,
 
-          routerConfig: goRouterConfig,
+              routerConfig: goRouterConfig,
+            );
+          },
         ),
       ),
     );

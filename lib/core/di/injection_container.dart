@@ -12,6 +12,11 @@ Future<void> configureDependencies() async {
   // 2. FEATURE DEPENDENCIES: Đăng ký các Repository và Use Case
   registerAuthFeatureDependencies();
 
+  Log.d('Feature dependencies registered.', name: 'DI');
+
+  // 2.5 AUTH INFRA: register auth infra that depends on feature impls
+  registerAuthInfraDependencies();
+
   // 3. GLOBAL STATE: Đăng ký các Cubit toàn cục (Phụ thuộc vào Core & Feature)
   registerGlobalStateDependencies();
   Log.d('Dependency injection completed.', name: 'DI');

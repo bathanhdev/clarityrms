@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clarityrms/core/global_state/network/network_cubit.dart';
 import 'package:clarityrms/core/ui/app_spacing.dart';
 
-/// Simple widget that shows a small inline network disconnected banner.
+/// Widget đơn giản hiển thị thông báo mất kết nối mạng dạng inline nhỏ.
 class NetworkStatus extends StatelessWidget {
   const NetworkStatus({super.key});
 

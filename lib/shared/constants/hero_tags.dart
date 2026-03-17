@@ -1,6 +1,6 @@
 class HeroTags {
   HeroTags._();
 
-  /// Centralized hero tag for the application logo.
+  /// Tag Hero tập trung cho logo ứng dụng.
   static const String appLogo = 'app_logo';
 }

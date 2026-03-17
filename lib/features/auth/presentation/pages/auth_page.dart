@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:clarityrms/shared/widgets/common_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:clarityrms/shared/widgets/network_status.dart';
+import 'package:clarityrms/shared/widgets/theme_toggle.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -35,7 +36,7 @@ class AuthPage extends StatelessWidget {
             ),
           ),
 
-          // Decorative soft circles
+          // Vòng tròn trang trí mờ
           Positioned(
             top: -80,
             left: -80,
@@ -61,7 +62,7 @@ class AuthPage extends StatelessWidget {
             ),
           ),
 
-          // Center modal with blur
+          // Hộp modal chính ở giữa với hiệu ứng blur
           Center(
             child: Padding(
               padding: AppSpacing.paddingAllLg,
@@ -104,7 +105,7 @@ class AuthPage extends StatelessWidget {
                           ),
                           AppSpacing.verticalSpaceLg,
                           Text(
-                            'Chào mừng đến với Clarity RMS',
+                            'Clarity RMS',
                             style: textTheme.titleLarge?.copyWith(
                               color: colors.primary,
                               fontWeight: FontWeight.w800,
@@ -113,7 +114,7 @@ class AuthPage extends StatelessWidget {
                           ),
                           AppSpacing.verticalSpaceSm,
                           Text(
-                            'Quản lý bán lẻ thông minh, trực quan — bắt đầu ngay.',
+                            'Quản lý bán lẻ thông minh, trực quan\nBắt đầu ngay',
                             style: textTheme.bodyMedium,
                             textAlign: TextAlign.center,
                           ),
@@ -137,6 +138,8 @@ class AuthPage extends StatelessWidget {
                             onPressed: () =>
                                 GoRouter.of(context).push(AppRouter.register),
                           ),
+                          AppSpacing.verticalSpaceSm,
+                          Center(child: ThemeToggle()),
                         ],
                       ),
                     ),

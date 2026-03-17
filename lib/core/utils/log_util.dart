@@ -1,17 +1,17 @@
 import 'package:flutter/foundation.dart';
 
-/// Lightweight logging utility for debug builds.
-/// Enhancements: configurable minimum level, colorized output in terminals.
+/// Tiện ích ghi log nhẹ cho môi trường debug.
+/// Ghi chú: có thể mở rộng cấu hình mức in tối thiểu và màu sắc khi in xuống terminal.
 class Log {
   Log._();
 
   static String get _time =>
       DateTime.now().toIso8601String().split('T').last.substring(0, 12);
 
-  /// Minimum level to print. Defaults to Debug in debug builds.
+  /// Mức log tối thiểu để in. Mặc định là `debug` trong debug builds.
   static LogLevel minLevel = LogLevel.debug;
 
-  /// Update minimum logging level at runtime.
+  /// Cập nhật mức log tối thiểu tại runtime.
   static void setLevel(LogLevel level) => minLevel = level;
 
   static bool _shouldPrint(LogLevel level) {
@@ -48,22 +48,22 @@ class Log {
     }
   }
 
-  /// Debug-level log
+  /// Ghi log mức debug
   static void d(dynamic message, {String name = 'APP'}) {
     _print(LogLevel.debug, name, message);
   }
 
-  /// Info-level log
+  /// Ghi log mức info
   static void i(dynamic message, {String name = 'APP'}) {
     _print(LogLevel.info, name, message);
   }
 
-  /// Warning-level log
+  /// Ghi log mức warning
   static void w(dynamic message, {String name = 'WARNING'}) {
     _print(LogLevel.warning, name, message);
   }
 
-  /// Error-level log with optional error/stack
+  /// Ghi log mức error kèm tuỳ chọn error/stack
   static void e(
     dynamic message, {
     Object? error,

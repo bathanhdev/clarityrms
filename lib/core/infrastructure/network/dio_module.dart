@@ -45,19 +45,26 @@ class DioModule {
       );
     }
 
-    // B. Token/Auth Interceptor (Inject từ GetIt và thêm vào)
-    // CHỈ THÊM NẾU NÓ ĐÃ ĐƯỢC ĐĂNG KÝ (Tức là Auth Feature đã được đăng ký)
+    // 4. Đăng ký Dio Instance vào GetIt
+    // Sử dụng LazySingleton để chỉ có một instance Dio duy nhất
+    sl.registerLazySingleton<Dio>(() => dio);
+
+    // Attach AuthInterceptor if it is already registered. If the
+    // interceptor is registered later, `registerAuthInfraDependencies`
+    // will attach it as a fallback.
     try {
       if (sl.isRegistered<AuthInterceptor>()) {
-        dio.interceptors.add(sl<AuthInterceptor>());
+        final interceptor = sl<AuthInterceptor>();
+        final alreadyAdded = dio.interceptors
+            .where((i) => identical(i, interceptor))
+            .isNotEmpty;
+        if (!alreadyAdded) {
+          dio.interceptors.add(interceptor);
+          Log.d('AuthInterceptor attached to main Dio.', name: 'DIO');
+        }
       }
     } catch (e) {
       Log.e('Lỗi khi thêm AuthInterceptor vào Dio: $e', name: 'DIO');
     }
-
-    // 4. Đăng ký Dio Instance vào GetIt
-    // Sử dụng LazySingleton để chỉ có một instance Dio duy nhất
-    sl.registerLazySingleton<Dio>(() => dio);
-    Log.d('Dio client registered.', name: 'DIO');
   }
 }

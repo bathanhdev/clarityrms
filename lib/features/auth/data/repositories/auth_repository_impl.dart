@@ -1,5 +1,4 @@
-// lib/features/auth/data/repositories/auth_repository_impl.dart
-
+// Repositories: Triển khai `AuthRepository` sử dụng Remote + Local data sources.
 import 'package:clarityrms/core/infrastructure/network/api_response_handler.dart';
 import 'package:clarityrms/core/infrastructure/network/network_handler.dart';
 import 'package:clarityrms/core/error/exceptions.dart';
@@ -23,9 +22,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required this.networkInfo,
   });
 
-  // ==========================================================
   // 1. LOGIN
-  // ==========================================================
   @override
   Future<APIResponse<AuthEntity>> login({
     required String username,
@@ -45,9 +42,7 @@ class AuthRepositoryImpl implements AuthRepository {
     );
   }
 
-  // ==========================================================
   // 2. REFRESH TOKEN
-  // ==========================================================
   @override
   Future<APIResponse<AuthEntity>> refreshToken(String refreshToken) async {
     return handleNetworkCall<AuthEntity>(
@@ -63,9 +58,7 @@ class AuthRepositoryImpl implements AuthRepository {
     );
   }
 
-  // ==========================================================
   // 3. CHECK AUTH STATUS
-  // ==========================================================
   @override
   Future<bool> checkAuthStatus() async {
     try {
@@ -87,9 +80,7 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  // ==========================================================
   // 4. LOGOUT
-  // ==========================================================
   @override
   Future<APIResponse<void>> logout() async {
     return handleNetworkCall<void>(

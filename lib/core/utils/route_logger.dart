@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:clarityrms/core/utils/log_util.dart';
 
-/// Attempts to log the current GoRouter location and the Navigator pages stack.
-/// Best-effort and only logs in debug mode.
+/// Ghi log vị trí hiện tại của `GoRouter` và stack của `Navigator` (nỗ lực tốt nhất).
+/// Chỉ ghi log trong chế độ debug.
 void logCurrentRoutes(BuildContext context) {
   if (!kDebugMode) return;
 
@@ -24,7 +24,7 @@ void logCurrentRoutes(BuildContext context) {
     Log.d('ROUTE: $top | STACK: $stack', name: 'ROUTE_LOG');
   } catch (e, st) {
     Log.e(
-      'Failed to log routes: $e',
+      'Lỗi khi ghi log routes: $e',
       error: e,
       stackTrace: st,
       name: 'ROUTE_LOG',
@@ -39,7 +39,7 @@ class RouteLoggingObserver extends NavigatorObserver {
       final routeName = route?.settings.name ?? route?.runtimeType.toString();
       Log.d('$event: $routeName', name: 'ROUTE_LOG');
 
-      // Read GoRouter location and schedule post-frame check.
+      // Đọc vị trí GoRouter và lên lịch kiểm tra sau khung (post-frame).
       try {
         final ctx =
             route?.navigator?.context ?? previousRoute?.navigator?.context;
@@ -54,7 +54,7 @@ class RouteLoggingObserver extends NavigatorObserver {
             }
           }
 
-          // Schedule post-frame read to capture updated navigator state.
+          // Lên lịch post-frame để lấy trạng thái navigator đã cập nhật.
           try {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               try {
@@ -69,7 +69,7 @@ class RouteLoggingObserver extends NavigatorObserver {
                   );
                 }
               } catch (_) {
-                // ignore
+                // bỏ qua nếu không truy xuất được
               }
 
               try {
@@ -82,7 +82,7 @@ class RouteLoggingObserver extends NavigatorObserver {
                   );
                 }
               } catch (_) {
-                // ignore
+                // bỏ qua khi không lấy được location
               }
             });
           } catch (_) {

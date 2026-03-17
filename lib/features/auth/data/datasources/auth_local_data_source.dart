@@ -27,10 +27,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   AuthLocalDataSourceImpl({required this.secureStorage});
 
-  // ==========================================================
   // HÀM LƯU TRỮ CHUNG
-  // ==========================================================
-
   Future<void> _cacheToken(String key, String token) async {
     try {
       await secureStorage.write(key: key, value: token);
@@ -41,10 +38,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     }
   }
 
-  // ==========================================================
   // HÀM TRUY XUẤT CHUNG
-  // ==========================================================
-
   Future<String> _getCachedToken(String key) async {
     try {
       final token = await secureStorage.read(key: key);
@@ -64,10 +58,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     }
   }
 
-  // ==========================================================
   // TRIỂN KHAI INTERFACE
-  // ==========================================================
-
   @override
   Future<void> cacheAccessToken(String token) =>
       _cacheToken(SecureStorageConstants.accessTokenKey, token);

@@ -12,6 +12,20 @@ Bạn là chuyên gia Flutter/Dart cho dự án Clarity RMS. Hãy tuân thủ ng
   - `lib/core/`: Hạ tầng (DI, Network, Router, Global State).
   - `lib/shared/`: Components, styles, extensions dùng chung.
 
+## Quy tắc bổ sung (Important)
+
+- **Không sinh hoặc ghi mã vào file hướng dẫn**: Tuyệt đối không ghi, tạo, hoặc generate nội dung vào `.github/copilot-instructions.md` từ code hoặc các script. File này chỉ dùng làm hướng dẫn cho Copilot/agent và chỉ được chỉnh sửa thủ công bởi người phát triển khi cần.
+- **`lib/core/ui` reserved**: Thư mục `lib/core/ui` chỉ dành cho "UI tokens" kỹ thuật (spacing, dimensions, radius). Không đặt widget, business logic, hoặc file cấu hình vào `lib/core/ui` nếu chúng không phải token kỹ thuật. Các component/stylesheet/định nghĩa UI khác phải nằm ở `lib/shared/styles` hoặc trong feature modules tương ứng.
+
+### **Quy tắc UI Tokens (Bắt buộc)**
+
+- **Mọi giá trị giao diện không được hard-coded**: Tất cả padding, margin, kích thước icon, radius, chiều cao nút, khoảng cách, và các giá trị kích thước giao diện khác phải dùng hằng số/ token trong `lib/core/ui` (`AppSpacing`, `AppDimensions`, `AppRadius`, v.v.).
+- **Mọi kiểu chữ và màu sắc**: Phải dùng `lib/shared/styles` (`AppTypography`, `AppColors`, `AppTheme`) hoặc `Theme.of(context)`; không dùng màu/rgb/hard-coded font size trực tiếp trong widget.
+- **Kiểm soát ngoại lệ**: Trường hợp cần giá trị tạm thời (prototype/POC), phải chú thích rõ `// PROTOTYPE: reason` và tạo issue/PR để thay bằng token thích hợp trước khi merge.
+- **Đảm bảo tuân thủ**: Việc tuân thủ quy tắc này được thực thi qua code review; khuyến khích thêm lint hoặc script CI (ví dụ: grep/analysis rule) nếu cần để phát hiện literal số (`EdgeInsets`, `height`, `width`, `fontSize`, `radius`) trong mã nguồn giao diện.
+
+Lý do: Giữ nhất quán UI, dễ điều chỉnh toàn cục, và tránh băm vặt giá trị khiến giao diện không đồng bộ.
+
 ## 2. Nguyên tắc SOLID & DRY
 
 - **S (Single Responsibility)**: Một Class/Widget chỉ làm một việc. Logic phức tạp phải tách ra khỏi UI.

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// A small reusable transparent AppBar with an optional title and a
-/// built-in back action that uses GoRouter.
+/// AppBar trong suốt tái sử dụng nhỏ gọn, có `title` tuỳ chọn và
+/// hành động quay lại tích hợp sử dụng `GoRouter`.
 class TransparentAppBar extends StatelessWidget implements PreferredSizeWidget {
   const TransparentAppBar({
     super.key,

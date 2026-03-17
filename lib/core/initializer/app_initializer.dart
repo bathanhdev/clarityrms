@@ -12,14 +12,14 @@ class AppInitializer {
 
     // 2. Khởi tạo Local Storage (SecureStorage)
     await StorageModule.initializeStorage();
-    Log.d('Storage initialization complete.', name: 'INIT');
 
     // 3. Cấu hình HTTP Client (Dio) - Sử dụng Base URL từ AppConfig
     DioModule.setupDio(appConfig.baseUrl);
-    Log.d('HTTP client configured (Dio).', name: 'INIT');
 
     // 4. Đăng ký tất cả các phụ thuộc
     await configureDependencies();
-    Log.d('Dependency injection configured.', name: 'INIT');
+
+    // App initialization complete
+    Log.d('App initialization complete.', name: 'INIT');
   }
 }

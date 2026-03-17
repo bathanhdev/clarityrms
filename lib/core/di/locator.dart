@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
 
-/// Centralized service locator instance for the app.
-/// Import this and use `sl` everywhere instead of redeclaring it.
+/// Instance GetIt dùng chung cho toàn ứng dụng.
+/// Sử dụng `sl` để đăng ký và lấy các phụ thuộc, tránh khai báo lại.
 final sl = GetIt.instance;
