@@ -1,4 +1,4 @@
-package com.iit.clarityrms
+package com.btech.clarityrms
 
 import io.flutter.embedding.android.FlutterActivity
 
