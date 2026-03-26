@@ -160,7 +160,8 @@ Gợi ý: nếu gặp lỗi codegen do conflict, chạy `flutter pub run build_r
 
 ## 5. Networking
 
-- HTTP client: `Dio`. Cấu hình chính trong `lib/core/infrastructure/network/dio_module.dart`.
+- Microservice API client: `ApiClient` chia riêng baseUrl + interceptor per service, đặt tại [lib/core/infrastructure/network/api_client.dart](lib/core/infrastructure/network/api_client.dart#L1).
+- HTTP client: `Dio`. Cấu hình chính trong `lib/core/infrastructure/network/api_client_factory.dart`.
 - `AuthInterceptor` xử lý gắn access token và refresh flow; có `tokenDio` riêng để gọi API làm mới token ([lib/core/infrastructure/network/interceptors/auth_interceptor.dart](lib/core/infrastructure/network/interceptors/auth_interceptor.dart#L1)).
 - Các mapping lỗi và helper gọi mạng tập trung tại [lib/core/infrastructure/network/network_handler.dart](lib/core/infrastructure/network/network_handler.dart#L1) cùng kiểu phản hồi ở [lib/core/infrastructure/network/api_response_handler.dart](lib/core/infrastructure/network/api_response_handler.dart#L1).
 

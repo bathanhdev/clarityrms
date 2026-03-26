@@ -3,17 +3,11 @@ import 'package:clarityrms/features/auth/data/datasources/auth_service_client.da
 import 'package:clarityrms/features/auth/data/models/auth_model.dart';
 import 'package:dio/dio.dart';
 
-/// Interface định nghĩa các hoạt động giao tiếp với API Auth.
 abstract class AuthRemoteDataSource {
-  /// Gọi API để đăng nhập và lấy token.
-  /// @throws [ServerException] nếu phản hồi lỗi (4xx, 5xx).
   Future<AuthModel> login(String username, String password);
 
-  /// Gọi API để làm mới token.
-  /// @throws [ServerException]
   Future<AuthModel> refreshToken(String refreshToken);
 
-  /// Gọi API để đăng xuất (Hủy token trên server).
   Future<void> logout();
 }
 
@@ -22,7 +16,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   AuthRemoteDataSourceImpl({required this.serviceClient});
 
-  // 1. LOGIN
   @override
   Future<AuthModel> login(String username, String password) async {
     try {
@@ -37,7 +30,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
-  // 2. REFRESH TOKEN
   @override
   Future<AuthModel> refreshToken(String refreshToken) async {
     try {
@@ -52,7 +44,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
-  // 3. LOGOUT
   @override
   Future<void> logout() async {
     try {

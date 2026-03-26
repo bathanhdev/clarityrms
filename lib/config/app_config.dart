@@ -5,17 +5,14 @@ import 'package:clarityrms/core/utils/log_util.dart';
 enum Environment { dev, prod }
 
 class AppConfig {
-  // 1. Thuộc tính Singleton (Instance)
   static AppConfig? _instance;
 
-  // 2. Thuộc tính cấu hình môi trường
   final Environment environment;
   final String baseUrl;
   final String authBaseUrl;
   final String userBaseUrl;
   final String firebaseApiKey;
 
-  // 3. Private Constructor
   const AppConfig._({
     required this.environment,
     required this.baseUrl,
@@ -24,10 +21,7 @@ class AppConfig {
     required this.firebaseApiKey,
   });
 
-  // 4. Factory để khởi tạo hoặc trả về instance đã có
   static AppConfig getInstance() {
-    // Nếu _instance chưa được khởi tạo, nó sẽ throw lỗi.
-    // Việc khởi tạo phải được thực hiện trong AppInitializer hoặc main.dart.
     if (_instance == null) {
       throw Exception(
         "AppConfig must be initialized before calling getInstance.",
@@ -36,9 +30,7 @@ class AppConfig {
     return _instance!;
   }
 
-  // 5. Hàm khởi tạo và Thiết lập môi trường
   static void initialize({required Environment environment}) {
-    // Ngăn chặn khởi tạo lại
     if (_instance != null) {
       debugPrint("AppConfig has already been initialized.");
       return;
@@ -51,7 +43,6 @@ class AppConfig {
     String finalUserBaseUrl;
     switch (environment) {
       case Environment.dev:
-        // Sử dụng các hằng số đã được generate bởi Envied (EnvDev)
         finalBaseUrl = EnvDev.baseUrl;
         finalAuthBaseUrl = EnvDev.authBaseUrl;
         finalUserBaseUrl = EnvDev.userBaseUrl;
@@ -60,7 +51,6 @@ class AppConfig {
         break;
 
       case Environment.prod:
-        // Sử dụng các hằng số đã được generate bởi Envied (EnvProd)
         finalBaseUrl = EnvProd.baseUrl;
         finalAuthBaseUrl = EnvProd.authBaseUrl;
         finalUserBaseUrl = EnvProd.userBaseUrl;
@@ -69,7 +59,6 @@ class AppConfig {
         break;
     }
 
-    // Khởi tạo Singleton Instance
     _instance = AppConfig._(
       environment: environment,
       baseUrl: finalBaseUrl,
@@ -80,7 +69,6 @@ class AppConfig {
     Log.d('Resolved baseUrl: $finalBaseUrl', name: 'CONFIG');
   }
 
-  // 6. Phương thức tiện ích
   bool get isProduction => environment == Environment.prod;
   bool get isDevelopment => environment == Environment.dev;
 

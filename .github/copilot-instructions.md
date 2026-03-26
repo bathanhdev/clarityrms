@@ -59,6 +59,7 @@ Lý do: Giữ nhất quán UI, dễ điều chỉnh toàn cục, và tránh băm
 
 ## 4. Networking & State Management
 
+- **Microservice support**: Sử dụng `ApiClient` để tách `baseUrl` và interceptor theo từng microservice; đăng ký mỗi service client riêng trong DI module. Kết hợp `lib/core/infrastructure/network/api_client.dart` + `lib/core/infrastructure/network/api_client_factory.dart`.
 - **HTTP Client**: Sử dụng `Dio`. Xử lý qua `NetworkHandler` và `ApiResponseHandler` tại `lib/core/infrastructure/network/`.
 - **Auth**: Token flow nằm tại `AuthInterceptor` (sử dụng `tokenDio` riêng).
 - **State**: Sử dụng `flutter_bloc`. Global cubit nằm ở `lib/core/global_state/`.
