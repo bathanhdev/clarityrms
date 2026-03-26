@@ -1,4 +1,4 @@
-import 'package:clarityrms/core/constants/api_endpoints.dart';
+import 'package:clarityrms/core/constants/api_endpoints_auth.dart';
 import 'package:dio/dio.dart';
 import 'dart:async';
 import 'package:clarityrms/core/error/exceptions.dart';
@@ -113,7 +113,7 @@ class AuthInterceptor extends Interceptor {
 
         // 2. Gọi API Refresh Token bằng tokenDio (ĐỘC LẬP VỚI MAIN DIO)
         final response = await tokenDio.post(
-          ApiEndpoints.refreshToken,
+          AuthEndpoints.refreshToken,
           data: {'refreshToken': refreshToken},
         );
 

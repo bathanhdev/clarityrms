@@ -1,21 +1,21 @@
 import 'package:clarityrms/core/di/modules/auth_feature_module.dart';
 import 'package:clarityrms/core/di/modules/core_module.dart';
 import 'package:clarityrms/core/di/modules/global_state_module.dart';
+import 'package:clarityrms/core/di/modules/user_feature_module.dart';
 import 'package:clarityrms/core/utils/log_util.dart';
 
 /// Hàm chính để đăng ký tất cả các phụ thuộc
 Future<void> configureDependencies() async {
-  // 1. CORE & EXTERNAL: Phải được đăng ký trước tiên
-  // (Đảm bảo Dio, Storage, NetworkInfo sẵn sàng)
+  // 0. Core and external dependencies (network infrastructure, config, router)
   registerCoreAndExternalDependencies();
 
-  // 2. FEATURE DEPENDENCIES: Đăng ký các Repository và Use Case
-  registerAuthFeatureDependencies();
+  // 1. AUTH MODULE (Auth feature + Auth infra chung)
+  registerAuthModuleDependencies();
+
+  // 2. USER FEATURE DEPENDENCIES
+  registerUserFeatureDependencies();
 
   Log.d('Feature dependencies registered.', name: 'DI');
-
-  // 2.5 AUTH INFRA: register auth infra that depends on feature impls
-  registerAuthInfraDependencies();
 
   // 3. GLOBAL STATE: Đăng ký các Cubit toàn cục (Phụ thuộc vào Core & Feature)
   registerGlobalStateDependencies();

@@ -1,5 +1,5 @@
-import 'package:clarityrms/core/constants/api_endpoints.dart';
 import 'package:clarityrms/core/error/exceptions.dart';
+import 'package:clarityrms/features/auth/data/datasources/auth_service_client.dart';
 import 'package:clarityrms/features/auth/data/models/auth_model.dart';
 import 'package:dio/dio.dart';
 
@@ -18,27 +18,15 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final Dio dio;
+  final AuthServiceClient serviceClient;
 
-  AuthRemoteDataSourceImpl({required this.dio});
+  AuthRemoteDataSourceImpl({required this.serviceClient});
 
   // 1. LOGIN
   @override
   Future<AuthModel> login(String username, String password) async {
     try {
-      final response = await dio.post(
-        ApiEndpoints.login,
-        data: {'username': username, 'password': password},
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return AuthModel.fromJson(response.data);
-      } else {
-        throw ServerException(
-          message: response.statusMessage ?? 'Đăng nhập không thành công',
-          statusCode: response.statusCode,
-        );
-      }
+      return await serviceClient.login(username: username, password: password);
     } on DioException catch (e) {
       throw ServerException(
         message: e.response?.data['message'] ?? 'Lỗi kết nối Server',
@@ -53,22 +41,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<AuthModel> refreshToken(String refreshToken) async {
     try {
-      final response = await dio.post(
-        ApiEndpoints.refreshToken,
-        data: {'refresh_token': refreshToken}, // Tùy thuộc vào API backend
-      );
-
-      if (response.statusCode == 200) {
-        return AuthModel.fromJson(response.data);
-      } else {
-        // Nếu refresh token không hợp lệ (ví dụ: 401, 403), ném lỗi
-        throw ServerException(
-          message: response.statusMessage ?? 'Refresh token không hợp lệ',
-          statusCode: response.statusCode,
-        );
-      }
+      return await serviceClient.refreshToken(refreshToken: refreshToken);
     } on DioException catch (e) {
-      // Bắt lỗi Dio để ném ServerException
       throw ServerException(
         message: e.response?.data['message'] ?? 'Refresh token lỗi kết nối',
         statusCode: e.response?.statusCode,
@@ -82,26 +56,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> logout() async {
     try {
-      // API Logout thường là POST hoặc DELETE
-      final response = await dio.post(
-        ApiEndpoints.logout,
-        // Có thể cần gửi Access Token hoặc Refresh Token trong body/header
-      );
-
-      // Thường API logout sẽ trả về 200/204 khi thành công
-      if (response.statusCode == 200 || response.statusCode == 204) {
-        // Đăng xuất thành công, không cần trả về gì
-        return;
-      } else {
-        // Xử lý các mã lỗi không mong muốn
-        throw ServerException(
-          message: response.statusMessage ?? 'Đăng xuất thất bại trên Server',
-          statusCode: response.statusCode,
-        );
-      }
+      return await serviceClient.logout();
     } on DioException catch (e) {
-      // Bắt lỗi Dio. Thường lỗi logout sẽ không quan trọng bằng lỗi login/refresh
-      // Nhưng vẫn nên ném lỗi để Repository biết và có thể ghi log.
       throw ServerException(
         message: e.response?.data['message'] ?? 'Lỗi kết nối khi đăng xuất',
         statusCode: e.response?.statusCode,
