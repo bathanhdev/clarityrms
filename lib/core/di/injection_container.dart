@@ -4,7 +4,6 @@ import 'package:clarityrms/core/di/modules/global_state_module.dart';
 import 'package:clarityrms/core/di/modules/user_feature_module.dart';
 import 'package:clarityrms/core/utils/log_util.dart';
 
-/// Hàm chính để đăng ký tất cả các phụ thuộc
 Future<void> configureDependencies() async {
   // 0. Core and external dependencies (network infrastructure, config, router)
   registerCoreAndExternalDependencies();
