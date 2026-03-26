@@ -37,6 +37,95 @@ flutter analyze
 flutter run
 ```
 
+- Shorebird (Flutter release distribution):
+
+```bash
+# cài Shorebird CLI (nếu chưa có):
+# macOS/Linux: brew install shorebird
+# Windows (choco / winget): choco install shorebird
+# Kiểm tra:
+shorebird --version
+```
+
+```bash
+# đăng nhập và khởi tạo project Shorebird trong repo
+shorebird login
+shorebird init
+```
+
+```bash
+# Tạo release theo platform (Android/iOS/macOS/Linux/Windows)
+shorebird release android
+shorebird release ios
+shorebird release macos
+shorebird release linux
+shorebird release windows
+```
+
+- Mặc định `shorebird release android` tạo `.aab`; để sinh thêm `.apk`:
+
+```bash
+shorebird release android --artifact apk
+```
+
+- Truyền tham số Flutter build qua `--`:
+
+```bash
+shorebird release android -- --dart-define="foo=bar"
+# Trong Powershell: shorebird release android -- '--dart-define=foo=bar'
+```
+
+- Kiểm tra Flutter version Shorebird dùng:
+
+```bash
+shorebird doctor
+```
+
+- Tạo release cụ thể với flag Flutter version (tuỳ chọn):
+
+```bash
+shorebird release android --flutter-version 3.41.5
+```
+
+- Preview (chạy bản release đã tạo trên thiết bị/devices):
+
+```bash
+shorebird preview
+```
+
+Mặc định, lệnh sẽ tự động lấy release mới nhất của app được định nghĩa trong `shorebird.yaml`, cài lên thiết bị đang kết nối, và khởi động app.
+
+- Để preview một platform cụ thể (nếu cần):
+
+```bash
+shorebird preview --platform android
+shorebird preview --platform ios
+```
+
+- Tạo patch (tập trung cập nhật code mà không cần release full):
+
+```bash
+shorebird patch android
+shorebird patch ios
+shorebird patch macos
+shorebird patch linux
+shorebird patch windows
+```
+
+- Các tuỳ chọn patch thường dùng:
+
+```bash
+shorebird patch android --release-version latest
+shorebird patch android --target lib/main_development.dart --flavor development
+shorebird patch android -- --dart-define="foo=bar"
+```
+
+Gợi ý: Khi preview trên Windows/Mac hoặc Android/iOS, đảm bảo thiết bị/emulator đang online và đã được flutter doctor kiểm tra ok.
+
+Gợi ý: xem docs chính thức tại https://docs.shorebird.dev/code-push/preview/ để chi tiết thêm `shorebird preview`.
+
+Gợi ý: xem docs chính thức tại https://docs.shorebird.dev/code-push/release/ để đảm bảo sign certificate và provision profile (iOS) theo quy trình.
+
 Gợi ý: nếu gặp lỗi codegen do conflict, chạy `flutter pub run build_runner build --delete-conflicting-outputs` để tự động xoá conflicts.
 
 ---
