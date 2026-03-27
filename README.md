@@ -65,7 +65,7 @@ shorebird release windows
 - Mặc định `shorebird release android` tạo `.aab`; để sinh thêm `.apk`:
 
 ```bash
-shorebird release android --artifact apk
+shorebird release android --flutter-version 3.38.5 --artifact apk
 ```
 
 - Truyền tham số Flutter build qua `--`:
@@ -84,7 +84,7 @@ shorebird doctor
 - Tạo release cụ thể với flag Flutter version (tuỳ chọn):
 
 ```bash
-shorebird release android --flutter-version 3.41.5
+shorebird release android --flutter-version 3.38.5
 ```
 
 - Preview (chạy bản release đã tạo trên thiết bị/devices):
@@ -118,6 +118,7 @@ shorebird patch windows
 shorebird patch android --release-version latest
 shorebird patch android --target lib/main_development.dart --flavor development
 shorebird patch android -- --dart-define="foo=bar"
+shorebird patch --platforms=android --release-version=1.0.0+1
 ```
 
 Gợi ý: Khi preview trên Windows/Mac hoặc Android/iOS, đảm bảo thiết bị/emulator đang online và đã được flutter doctor kiểm tra ok.

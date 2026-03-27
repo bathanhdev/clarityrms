@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:clarityrms/core/ui/app_dimensions.dart';
 import 'package:clarityrms/core/ui/app_radius.dart';
 import 'package:clarityrms/core/ui/app_spacing.dart';
+import 'package:clarityrms/features/auth/presentation/widgets/update_confirm_dialog.dart';
 import 'package:clarityrms/shared/generated/assets.gen.dart';
 import 'package:clarityrms/core/router/app_router.dart';
 import 'package:clarityrms/shared/constants/hero_tags.dart';
@@ -11,9 +12,103 @@ import 'package:clarityrms/shared/widgets/common_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:clarityrms/shared/widgets/network_status.dart';
 import 'package:clarityrms/shared/widgets/theme_toggle.dart';
+import 'package:shorebird_code_push/shorebird_code_push.dart';
+import 'package:toastification/toastification.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
+
+  void _onUpdate(BuildContext context, ShorebirdUpdater updater) async {
+    final confirm =
+        await showDialog<bool>(
+          context: context,
+          builder: (ctx) => UpdateConfirmDialog(),
+        ) ??
+        false;
+
+    if (!confirm) {
+      toastification.show(
+        title: const Text("ShoreBird"),
+        description: const Text('Cập nhật đã bị hủy.'),
+      );
+      return;
+    }
+
+    toastification.show(
+      title: const Text("ShoreBird update"),
+      description: Text('Đang tải bản cập nhật...'),
+    );
+
+    try {
+      await updater.update();
+      toastification.show(
+        title: const Text("ShoreBird"),
+        description: const Text(
+          'Cập nhật đã tải xong. Khởi động lại ứng dụng để áp dụng.',
+        ),
+      );
+    } on UpdateException catch (error) {
+      toastification.show(
+        title: const Text("ShoreBird error"),
+        description: Text(error.message),
+      );
+    }
+  }
+
+  Future<void> _handleShorebirdUpdate(BuildContext context) async {
+    final updater = ShorebirdUpdater();
+
+    if (!updater.isAvailable) {
+      toastification.show(
+        title: Text("ShoreBird"),
+        description: Text('Shorebird is not available in this build.'),
+      );
+      return;
+    }
+
+    try {
+      final status = await updater.checkForUpdate();
+
+      switch (status) {
+        case UpdateStatus.outdated:
+          if (context.mounted) {
+            _onUpdate(context, updater);
+          }
+          break;
+
+        case UpdateStatus.restartRequired:
+          toastification.show(
+            title: Text("ShoreBird"),
+            description: Text('An update is installed and requires a restart.'),
+          );
+          break;
+
+        case UpdateStatus.upToDate:
+          toastification.show(
+            title: Text("ShoreBird"),
+            description: Text('App is up to date.'),
+          );
+          break;
+
+        case UpdateStatus.unavailable:
+          toastification.show(
+            title: Text("ShoreBird"),
+            description: Text('Updater is unavailable in this build.'),
+          );
+          break;
+      }
+    } on UpdateException catch (error) {
+      toastification.show(
+        title: Text("ShoreBird error"),
+        description: Text(error.message),
+      );
+    } catch (e) {
+      toastification.show(
+        title: Text("ShoreBird error"),
+        description: Text(e.toString()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +116,12 @@ class AuthPage extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
+      floatingActionButton: IconButton(
+        onPressed: () => _handleShorebirdUpdate(context),
+        icon: Icon(Icons.update),
+        color: Theme.of(context).colorScheme.primary,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Stack(
         children: [
           Container(
@@ -134,6 +235,7 @@ class AuthPage extends StatelessWidget {
                           CommonButton(
                             expanded: true,
                             variant: CommonButtonVariant.outlined,
+                            commonButtonStyle: CommonButtonStyle.warning,
                             label: const Text('Tạo tài khoản mới'),
                             onPressed: () =>
                                 GoRouter.of(context).push(AppRouter.register),

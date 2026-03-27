@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clarityrms/core/di/locator.dart';
 import 'package:clarityrms/core/global_state/theme/theme_cubit.dart';
+import 'package:toastification/toastification.dart';
 
 /// Widget cấp cao nhất của ứng dụng.
 class MyApp extends StatelessWidget {
@@ -19,38 +20,43 @@ class MyApp extends StatelessWidget {
     final goRouterConfig = sl<AppRouter>().config;
     ScreenUtil.init(context);
 
-    return MultiBlocProvider(
-      providers: [
-        // 1. Cung cấp NetworkCubit
-        BlocProvider<NetworkCubit>(
-          create: (_) => sl<NetworkCubit>(),
-          lazy: false,
-        ),
-        // 2. Cung cấp AuthCubit
-        BlocProvider<AuthCubit>(
-          create: (context) => sl<AuthCubit>()..appStarted(),
-          lazy: false,
-        ),
-        // 3. Cung cấp ThemeCubit
-        BlocProvider<ThemeCubit>(create: (_) => sl<ThemeCubit>(), lazy: false),
-      ],
-      // SỬ DỤNG MaterialApp.router
-      child: GestureDetector(
-        onTap: () => UIHelper.hideKeyboard(context),
-        child: BlocBuilder<ThemeCubit, ThemeMode>(
-          builder: (context, themeMode) {
-            return MaterialApp.router(
-              title: 'ClarityRMS',
-              debugShowMaterialGrid: false,
-              debugShowCheckedModeBanner: false,
+    return ToastificationWrapper(
+      child: MultiBlocProvider(
+        providers: [
+          // 1. Cung cấp NetworkCubit
+          BlocProvider<NetworkCubit>(
+            create: (_) => sl<NetworkCubit>(),
+            lazy: false,
+          ),
+          // 2. Cung cấp AuthCubit
+          BlocProvider<AuthCubit>(
+            create: (context) => sl<AuthCubit>()..appStarted(),
+            lazy: false,
+          ),
+          // 3. Cung cấp ThemeCubit
+          BlocProvider<ThemeCubit>(
+            create: (_) => sl<ThemeCubit>(),
+            lazy: false,
+          ),
+        ],
+        // SỬ DỤNG MaterialApp.router
+        child: GestureDetector(
+          onTap: () => UIHelper.hideKeyboard(context),
+          child: BlocBuilder<ThemeCubit, ThemeMode>(
+            builder: (context, themeMode) {
+              return MaterialApp.router(
+                title: 'ClarityRMS',
+                debugShowMaterialGrid: false,
+                debugShowCheckedModeBanner: false,
 
-              theme: AppTheme.light,
-              darkTheme: AppTheme.dark,
-              themeMode: themeMode,
+                theme: AppTheme.light,
+                darkTheme: AppTheme.dark,
+                themeMode: themeMode,
 
-              routerConfig: goRouterConfig,
-            );
-          },
+                routerConfig: goRouterConfig,
+              );
+            },
+          ),
         ),
       ),
     );
