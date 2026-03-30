@@ -47,7 +47,6 @@ flutter:
 
   assets:
     - assets/images/
-    - shorebird.yaml
 
 flutter_gen:
   output: lib/shared/generated

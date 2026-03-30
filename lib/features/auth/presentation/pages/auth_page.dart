@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:clarityrms/core/constants/app_durations.dart';
 import 'package:clarityrms/core/ui/app_dimensions.dart';
 import 'package:clarityrms/core/ui/app_radius.dart';
 import 'package:clarityrms/core/ui/app_spacing.dart';
@@ -30,6 +31,8 @@ class AuthPage extends StatelessWidget {
       toastification.show(
         title: const Text("ShoreBird"),
         description: const Text('Cập nhật đã bị hủy.'),
+        autoCloseDuration: AppDurations.toastDuration,
+        pauseOnHover: false,
       );
       return;
     }
@@ -37,6 +40,8 @@ class AuthPage extends StatelessWidget {
     toastification.show(
       title: const Text("ShoreBird update"),
       description: Text('Đang tải bản cập nhật...'),
+      autoCloseDuration: AppDurations.toastDuration,
+      pauseOnHover: false,
     );
 
     try {
@@ -46,11 +51,15 @@ class AuthPage extends StatelessWidget {
         description: const Text(
           'Cập nhật đã tải xong. Khởi động lại ứng dụng để áp dụng.',
         ),
+        autoCloseDuration: AppDurations.toastDuration,
+        pauseOnHover: false,
       );
     } on UpdateException catch (error) {
       toastification.show(
         title: const Text("ShoreBird error"),
         description: Text(error.message),
+        autoCloseDuration: AppDurations.toastDuration,
+        pauseOnHover: false,
       );
     }
   }
@@ -62,6 +71,9 @@ class AuthPage extends StatelessWidget {
       toastification.show(
         title: Text("ShoreBird"),
         description: Text('Shorebird is not available in this build.'),
+        autoCloseDuration: AppDurations.toastDuration,
+        showProgressBar: true,
+        pauseOnHover: false,
       );
       return;
     }
@@ -80,6 +92,8 @@ class AuthPage extends StatelessWidget {
           toastification.show(
             title: Text("ShoreBird"),
             description: Text('An update is installed and requires a restart.'),
+            autoCloseDuration: AppDurations.toastDuration,
+            pauseOnHover: false,
           );
           break;
 
@@ -87,6 +101,8 @@ class AuthPage extends StatelessWidget {
           toastification.show(
             title: Text("ShoreBird"),
             description: Text('App is up to date.'),
+            autoCloseDuration: AppDurations.toastDuration,
+            pauseOnHover: false,
           );
           break;
 
@@ -94,6 +110,8 @@ class AuthPage extends StatelessWidget {
           toastification.show(
             title: Text("ShoreBird"),
             description: Text('Updater is unavailable in this build.'),
+            autoCloseDuration: AppDurations.toastDuration,
+            pauseOnHover: false,
           );
           break;
       }
@@ -101,11 +119,15 @@ class AuthPage extends StatelessWidget {
       toastification.show(
         title: Text("ShoreBird error"),
         description: Text(error.message),
+        autoCloseDuration: AppDurations.toastDuration,
+        pauseOnHover: false,
       );
     } catch (e) {
       toastification.show(
         title: Text("ShoreBird error"),
         description: Text(e.toString()),
+        autoCloseDuration: AppDurations.toastDuration,
+        pauseOnHover: false,
       );
     }
   }
@@ -235,7 +257,7 @@ class AuthPage extends StatelessWidget {
                           CommonButton(
                             expanded: true,
                             variant: CommonButtonVariant.outlined,
-                            commonButtonStyle: CommonButtonStyle.warning,
+                            commonButtonStyle: CommonButtonStyle.primary,
                             label: const Text('Tạo tài khoản mới'),
                             onPressed: () =>
                                 GoRouter.of(context).push(AppRouter.register),
