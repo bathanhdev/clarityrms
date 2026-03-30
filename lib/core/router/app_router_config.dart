@@ -60,7 +60,9 @@ GoRouter createGoRouter() {
       ].any((r) => state.matchedLocation.startsWith(r));
 
       if (isChecking) return null;
-      if (isAuthenticated && isGoingToAuth) return AppRoutes.home;
+      if (isAuthenticated && isGoingToAuth || isAuthenticated) {
+        return AppRoutes.home;
+      }
       if (!isAuthenticated && !isGoingToAuth) return AppRoutes.auth;
       return null;
     },
