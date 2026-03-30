@@ -1,4 +1,3 @@
-// import 'package:clarityrms/core/router/app_router.dart';
 import 'package:clarityrms/core/ui/app_dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:clarityrms/core/ui/app_spacing.dart';
@@ -9,7 +8,6 @@ import 'package:clarityrms/core/infrastructure/helpers/ui_helper.dart';
 import 'package:clarityrms/shared/generated/assets.gen.dart';
 import 'package:clarityrms/shared/widgets/common_button.dart';
 import 'package:clarityrms/shared/constants/hero_tags.dart';
-// import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -215,21 +213,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                             ],
                           ),
-
-                          // AppSpacing.verticalSpaceLg,
-
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: [
-                          //     const Text('Đã có tài khoản?'),
-                          //     TextButton(
-                          //       onPressed: () => GoRouter.of(
-                          //         context,
-                          //       ).replace(AppRouter.login),
-                          //       child: const Text('Đăng nhập'),
-                          //     ),
-                          //   ],
-                          // ),
                         ],
                       ),
                     ),

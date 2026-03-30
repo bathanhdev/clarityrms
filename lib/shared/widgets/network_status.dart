@@ -14,22 +14,26 @@ class NetworkStatus extends StatelessWidget {
         if (state is NetworkDisconnected) {
           return Padding(
             padding: AppSpacing.paddingHorizontalSm,
-            child: Row(
-              children: [
-                Icon(
-                  Icons.wifi_off,
-                  color: Theme.of(context).colorScheme.error,
-                ),
-                AppSpacing.horizontalSpaceSm,
-                Expanded(
-                  child: Text(
-                    'Mất kết nối mạng. Vui lòng kiểm tra lại.',
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  WidgetSpan(
+                    child: Padding(
+                      padding: EdgeInsetsGeometry.only(right: AppSpacing.md),
+                      child: Icon(
+                        Icons.wifi_off,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Mất kết nối mạng. Vui lòng kiểm tra lại.',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.error,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }

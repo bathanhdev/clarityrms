@@ -1,15 +1,20 @@
 import 'dart:ui';
 
 import 'package:clarityrms/core/constants/app_durations.dart';
+import 'package:clarityrms/core/global_state/theme/theme_cubit.dart';
 import 'package:clarityrms/core/ui/app_dimensions.dart';
 import 'package:clarityrms/core/ui/app_radius.dart';
 import 'package:clarityrms/core/ui/app_spacing.dart';
 import 'package:clarityrms/features/auth/presentation/widgets/update_confirm_dialog.dart';
+import 'package:clarityrms/features/auth/presentation/widgets/animated_wave_screen.dart';
+import 'package:clarityrms/shared/extensions/theme_cubit_extensions.dart';
+import 'package:clarityrms/features/auth/presentation/widgets/sun_moon_switch.dart';
 import 'package:clarityrms/shared/generated/assets.gen.dart';
 import 'package:clarityrms/core/router/app_router.dart';
 import 'package:clarityrms/shared/constants/hero_tags.dart';
 import 'package:flutter/material.dart';
 import 'package:clarityrms/shared/widgets/common_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:clarityrms/shared/widgets/network_status.dart';
 import 'package:clarityrms/shared/widgets/theme_toggle.dart';
@@ -146,6 +151,7 @@ class AuthPage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Stack(
         children: [
+          AnimatedWaveScreen(),
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -159,32 +165,19 @@ class AuthPage extends StatelessWidget {
             ),
           ),
 
-          // Vòng tròn trang trí mờ
+          // Vòng tròn trang trí
           Positioned(
-            top: -80,
-            left: -80,
-            child: Container(
-              width: 220,
-              height: 220,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: colors.primary.withAlpha(20),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -100,
-            right: -60,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: colors.secondary.withAlpha(18),
-              ),
-            ),
-          ),
+            top: -45,
+            right: -45,
+            child: BlocBuilder<ThemeCubit, ThemeMode>(
+              builder: (context, mode) {
+                final bool isDark =
+                    mode.getRealBrightness(context) == Brightness.dark;
 
+                return SunMoonSwitch(isDark: isDark, size: 160);
+              },
+            ),
+          ),
           // Hộp modal chính ở giữa với hiệu ứng blur
           Center(
             child: Padding(
@@ -201,7 +194,7 @@ class AuthPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Theme.of(
                           context,
-                        ).colorScheme.surface.withAlpha(220),
+                        ).colorScheme.surface.withAlpha(120),
                         borderRadius: AppRadius.borderRadiusLg,
                         boxShadow: [
                           BoxShadow(
