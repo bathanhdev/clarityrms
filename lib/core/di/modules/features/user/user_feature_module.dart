@@ -1,4 +1,4 @@
-import 'package:clarityrms/core/infrastructure/network/api_client_factory.dart';
+import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/features/user/data/datasources/user_remote_data_source.dart';
 import 'package:clarityrms/features/user/data/datasources/user_service_client.dart';
 import 'package:clarityrms/features/user/data/repositories/user_repository_impl.dart';
@@ -7,7 +7,7 @@ import 'package:clarityrms/features/user/domain/usecases/get_user_profile_usecas
 import 'package:clarityrms/core/di/locator.dart';
 import 'package:clarityrms/config/app_config.dart';
 
-void registerUserFeatureDependencies() {
+void registerUserModuleDependencies() {
   if (!sl.isRegistered<UserServiceClient>()) {
     sl.registerLazySingleton<UserServiceClient>(
       () => UserServiceClient(

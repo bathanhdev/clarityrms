@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:clarityrms/config/app_config.dart';
 import 'package:clarityrms/core/constants/api_endpoints_auth.dart';
-import 'package:clarityrms/core/infrastructure/network/api_client.dart';
+import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/features/auth/data/models/auth_model.dart';
 import 'package:dio/dio.dart';
 

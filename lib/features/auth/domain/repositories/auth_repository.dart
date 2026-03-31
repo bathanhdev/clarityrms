@@ -1,4 +1,4 @@
-import 'package:clarityrms/core/infrastructure/network/api_response_handler.dart';
+import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/features/auth/domain/entities/auth_entity.dart';
 
 /// Interface cho Auth Repository. Nằm ở Tầng Domain.

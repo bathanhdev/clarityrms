@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import 'package:clarityrms/core/infrastructure/network/network_info.dart';
+import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/core/utils/log_util.dart';
 
 // ==========================================================

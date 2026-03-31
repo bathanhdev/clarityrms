@@ -1,4 +1,4 @@
-import 'package:clarityrms/core/infrastructure/network/interceptors/auth_interceptor.dart';
+import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:dio/dio.dart';
 
 /// Factory phục vụ việc tạo danh sách interceptor cho mọi ApiClient.

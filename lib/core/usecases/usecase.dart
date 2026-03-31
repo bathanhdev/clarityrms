@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:clarityrms/core/infrastructure/network/api_response_handler.dart';
+import 'package:clarityrms/core/infrastructure/network/network.dart';
 
 // Lớp trừu tượng cơ sở cho tất cả các Use Case.
 // Phương thức 'call' trả về APIResponse<T> cho các tác vụ có thể thất bại (Mạng).

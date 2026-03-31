@@ -1,4 +1,4 @@
-import 'package:clarityrms/core/infrastructure/network/api_response_handler.dart';
+import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/features/user/domain/entities/user_entity.dart';
 import 'package:clarityrms/features/user/domain/repositories/user_repository.dart';
 

@@ -1,8 +1,6 @@
 // Repositories: Triển khai `AuthRepository` sử dụng Remote + Local data sources.
-import 'package:clarityrms/core/infrastructure/network/api_response_handler.dart';
-import 'package:clarityrms/core/infrastructure/network/network_handler.dart';
 import 'package:clarityrms/core/error/exceptions.dart';
-import 'package:clarityrms/core/infrastructure/network/network_info.dart';
+import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:clarityrms/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:clarityrms/features/auth/data/models/auth_model.dart';

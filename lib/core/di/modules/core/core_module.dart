@@ -1,8 +1,6 @@
 import 'package:clarityrms/config/app_config.dart';
 import 'package:clarityrms/core/constants/app_durations.dart';
-import 'package:clarityrms/core/infrastructure/network/api_client_factory.dart';
-import 'package:clarityrms/core/infrastructure/network/interceptors/auth_interceptor.dart';
-import 'package:clarityrms/core/infrastructure/network/network_info.dart';
+import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/core/router/app_router.dart';
 import 'package:clarityrms/core/utils/log_util.dart';
 import 'package:dio/dio.dart';
