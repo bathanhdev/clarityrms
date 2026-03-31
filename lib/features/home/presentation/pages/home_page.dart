@@ -11,10 +11,6 @@ class HomePage extends StatelessWidget {
   void _performLogout(BuildContext context) {
     // Gọi hàm logout của Global AuthCubit (đã được cung cấp ở cấp MyApp)
     context.read<AuthCubit>().logout();
-
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Đang đăng xuất...')));
   }
 
   @override

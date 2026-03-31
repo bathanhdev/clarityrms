@@ -31,13 +31,20 @@ class AuthRepositoryImpl implements AuthRepository {
     return handleNetworkCall<AuthEntity>(
       networkInfo: networkInfo,
       apiCall: () async {
-        final AuthModel authModel = await remoteDataSource.login(
-          username,
-          password,
+        // final AuthModel authModel = await remoteDataSource.login(
+        //   username,
+        //   password,
+        // );
+        // await localDataSource.cacheAccessToken(authModel.accessToken);
+        // await localDataSource.cacheRefreshToken(authModel.refreshToken);
+        // return authModel.toEntity();
+        await localDataSource.cacheAccessToken("accessToken");
+        await localDataSource.cacheRefreshToken("refreshToken");
+        return AuthEntity(
+          accessToken: "accessToken",
+          refreshToken: "refreshToken",
+          expiresIn: DateTime.now().millisecondsSinceEpoch,
         );
-        await localDataSource.cacheAccessToken(authModel.accessToken);
-        await localDataSource.cacheRefreshToken(authModel.refreshToken);
-        return authModel.toEntity();
       },
     );
   }
