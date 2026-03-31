@@ -31,9 +31,6 @@ class SunMoonSwitch extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: isDark
-              ? Colors.indigo[900]
-              : Colors.orangeAccent.withValues(alpha: .6),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: isDark ? 0.18 : 0.08),
@@ -44,9 +41,9 @@ class SunMoonSwitch extends StatelessWidget {
         ),
         child: Center(
           child: Icon(
-            isDark ? Icons.nights_stay : Icons.wb_sunny,
-            size: size * 0.44,
-            color: isDark ? Colors.white : Colors.yellow[800],
+            isDark ? Icons.nights_stay : Icons.sunny,
+            size: size * .8,
+            color: isDark ? Colors.blue : Colors.yellow[800],
           ),
         ),
       ),

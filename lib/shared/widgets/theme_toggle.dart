@@ -33,21 +33,21 @@ class ThemeToggle extends StatelessWidget {
             children: [
               _SegmentButton(
                 icon: Icons.wb_sunny_outlined,
-                label: 'Light',
+                label: 'Sáng',
                 selected: isLight,
                 onTap: () =>
                     context.read<ThemeCubit>().setThemeMode(ThemeMode.light),
               ),
               _SegmentButton(
                 icon: Icons.dark_mode_outlined,
-                label: 'Dark',
+                label: 'Tối',
                 selected: isDark,
                 onTap: () =>
                     context.read<ThemeCubit>().setThemeMode(ThemeMode.dark),
               ),
               _SegmentButton(
                 icon: Icons.smartphone_outlined,
-                label: 'System',
+                label: 'Hệ Thống',
                 selected: isSystem,
                 onTap: () =>
                     context.read<ThemeCubit>().setThemeMode(ThemeMode.system),

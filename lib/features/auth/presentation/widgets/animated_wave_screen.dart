@@ -104,7 +104,7 @@ class WavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Theme.of(context).colorScheme.onSurfaceVariant.withAlpha(140)
+      ..color = Colors.brown.withAlpha(200)
       ..style = PaintingStyle.fill;
 
     final path = pathWithConicTo(size);
