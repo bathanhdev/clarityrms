@@ -21,6 +21,21 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Write .env.dev from secrets
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          AUTH_BASE_URL: ${{ secrets.AUTH_BASE_URL }}
+          USER_BASE_URL: ${{ secrets.USER_BASE_URL }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+        run: |
+          mkdir -p assets/env
+          cat > assets/env/.env.dev <<EOF
+          BASE_URL=$BASE_URL
+          AUTH_BASE_URL=$AUTH_BASE_URL
+          USER_BASE_URL=$USER_BASE_URL
+          FIREBASE_API_KEY=$FIREBASE_API_KEY
+          EOF
+
       - name: Codegen (build_runner)
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
