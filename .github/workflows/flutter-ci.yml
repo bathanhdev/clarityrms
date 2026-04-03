@@ -11,9 +11,9 @@ name: Flutter CI
 
 env:
   # Force JS Actions to run on Node.js 24 (opt-in testing/compatibility)
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
   # If you need to opt out later, set ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION to 'true'
-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: 'false'
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "false"
 
 on:
   push:
