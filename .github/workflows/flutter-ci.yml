@@ -1,7 +1,19 @@
+## GitHub Actions Node.js migration notes
+#
+# - We opt into Node.js 24 for JavaScript actions to test compatibility ahead of
+#   the runner default switching to Node24. See:
+#   https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+#
+# - To opt out and continue using Node20 temporarily (only supported until
+#   the runner removes Node20), set `ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true`.
+#
 name: Flutter CI
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  # Force JS Actions to run on Node.js 24 (opt-in testing/compatibility)
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  # If you need to opt out later, set ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION to 'true'
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: 'false'
 
 on:
   push:
