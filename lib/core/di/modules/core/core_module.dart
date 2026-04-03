@@ -1,6 +1,7 @@
 import 'package:clarityrms/config/app_config.dart';
 import 'package:clarityrms/core/constants/app_durations.dart';
 import 'package:clarityrms/core/infrastructure/network/network.dart';
+import 'package:clarityrms/core/infrastructure/network/interceptors/auth_logout_handler.dart';
 import 'package:clarityrms/core/router/app_router.dart';
 import 'package:clarityrms/core/utils/log_util.dart';
 import 'package:dio/dio.dart';
@@ -33,20 +34,35 @@ void _registerNetworkInfrastructure() {
       () => Dio(authHttp.options),
     );
 
-    if (!sl.isRegistered<AuthInterceptor>()) {
-      sl.registerLazySingleton<AuthInterceptor>(
-        () => AuthInterceptor(
-          authLocalDataSource: sl(),
-          tokenDio: sl(instanceName: 'tokenDio'),
-          dio: authHttp,
-        ),
+    // Ensure logout handler is available before registering interceptor factory
+    if (!sl.isRegistered<AuthLogoutHandler>()) {
+      sl.registerLazySingleton<AuthLogoutHandler>(
+        () => DefaultAuthLogoutHandler(),
+      );
+    }
+
+    if (!sl.isRegistered<AuthInterceptor Function(Dio)>()) {
+      sl.registerFactory<AuthInterceptor Function(Dio)>(
+        () =>
+            (Dio dio) => AuthInterceptor(
+              authLocalDataSource: sl(),
+              tokenDio: sl(instanceName: 'tokenDio'),
+              dio: dio,
+              logoutHandler: sl.isRegistered<AuthLogoutHandler>()
+                  ? sl<AuthLogoutHandler>()
+                  : null,
+            ),
       );
     }
   }
 
   if (!sl.isRegistered<ApiClientFactory>()) {
     sl.registerLazySingleton<ApiClientFactory>(
-      () => ApiClientFactory(authInterceptor: sl<AuthInterceptor>()),
+      () => ApiClientFactory(
+        authInterceptorFactory: sl.isRegistered<AuthInterceptor Function(Dio)>()
+            ? sl<AuthInterceptor Function(Dio)>()
+            : null,
+      ),
     );
   }
 

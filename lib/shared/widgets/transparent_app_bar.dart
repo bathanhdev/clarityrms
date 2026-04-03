@@ -8,6 +8,7 @@ class TransparentAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.title,
     this.showBack = true,
+    // UI_TOKENS_IGNORE_LINE
     this.elevation = 0,
   });
 

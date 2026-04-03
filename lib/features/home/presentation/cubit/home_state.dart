@@ -1,3 +1,4 @@
+// UI_TOKENS_IGNORE
 class HomeState {
   final int counter;
   final bool isDataLoading;

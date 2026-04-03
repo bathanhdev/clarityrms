@@ -18,13 +18,15 @@ void registerAuthModuleDependencies() {
   }
 
   if (!sl.isRegistered<AuthServiceClient>()) {
+    // Create an ApiClient configured for the auth service and register
+    // the service client using its Dio instance.
+    final authApiClient = sl<ApiClientFactory>().createApiClient(
+      baseUrl: sl<AppConfig>().authBaseUrl,
+      authRequired: true,
+    );
+
     sl.registerLazySingleton<AuthServiceClient>(
-      () => AuthServiceClient(
-        baseUrl: sl<AppConfig>().authBaseUrl,
-        interceptors: sl<ApiClientFactory>().getInterceptors(
-          authRequired: true,
-        ),
-      ),
+      () => AuthServiceClient.fromDio(authApiClient.client),
     );
 
     if (!sl.isRegistered<AuthRemoteDataSource>()) {

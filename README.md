@@ -1,4 +1,4 @@
-# 🚀 Clarity RMS — Tổng quan & Hướng dẫn nhanh (Tiếng Việt)
+# 🚀 Clarity RMS — Tổng quan & Hướng dẫn nhanh
 
 Clarity RMS là ứng dụng Flutter cho quản lý bán lẻ, được thiết kế theo Clean Architecture và tổ chức theo Feature Modules để dễ mở rộng và bảo trì.
 

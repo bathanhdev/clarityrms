@@ -1,16 +1,10 @@
-import 'package:clarityrms/config/app_config.dart';
 import 'package:clarityrms/core/constants/api_endpoints_user.dart';
 import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/features/user/data/models/user_model.dart';
-import 'package:dio/dio.dart';
 
 class UserServiceClient extends ApiClient {
-  UserServiceClient({String? baseUrl, List<Interceptor>? interceptors})
-    : super(
-        baseUrl ?? AppConfig.getInstance().userBaseUrl,
-        contentType: 'application/json',
-        interceptors: interceptors,
-      );
+  /// Create from an existing Dio instance (used for per-Dio interceptor migration).
+  UserServiceClient.fromDio(super.dio) : super.fromDio();
 
   Future<UserModel> getProfile() async {
     final response = await dio.get(UserEndpoints.userProfile);

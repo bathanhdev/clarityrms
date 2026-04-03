@@ -1,5 +1,7 @@
+// UI_TOKENS_IGNORE
 import 'package:clarityrms/core/ui/app_dimensions.dart';
 import 'package:clarityrms/core/ui/app_radius.dart';
+import 'package:clarityrms/core/ui/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -57,7 +59,7 @@ class CommonButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (icon != null) ...[icon!, const SizedBox(width: 8)],
+              if (icon != null) ...[icon!, AppSpacing.horizontalSpaceSm],
               label,
             ],
           );

@@ -9,13 +9,13 @@ import 'package:clarityrms/config/app_config.dart';
 
 void registerUserModuleDependencies() {
   if (!sl.isRegistered<UserServiceClient>()) {
+    final userApiClient = sl<ApiClientFactory>().createApiClient(
+      baseUrl: sl<AppConfig>().userBaseUrl,
+      authRequired: true,
+    );
+
     sl.registerLazySingleton<UserServiceClient>(
-      () => UserServiceClient(
-        baseUrl: sl<AppConfig>().userBaseUrl,
-        interceptors: sl<ApiClientFactory>().getInterceptors(
-          authRequired: true,
-        ),
-      ),
+      () => UserServiceClient.fromDio(userApiClient.client),
     );
   }
 

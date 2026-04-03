@@ -1,18 +1,12 @@
 import 'dart:convert';
 
-import 'package:clarityrms/config/app_config.dart';
 import 'package:clarityrms/core/constants/api_endpoints_auth.dart';
 import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/features/auth/data/models/auth_model.dart';
 import 'package:dio/dio.dart';
 
 class AuthServiceClient extends ApiClient {
-  AuthServiceClient({String? baseUrl, List<Interceptor>? interceptors})
-    : super(
-        baseUrl ?? AppConfig.getInstance().authBaseUrl,
-        contentType: 'application/json',
-        interceptors: interceptors,
-      );
+  AuthServiceClient.fromDio(super.dio) : super.fromDio();
 
   Future<AuthModel> login({
     required String username,
@@ -30,7 +24,7 @@ class AuthServiceClient extends ApiClient {
   Future<AuthModel> refreshToken({required String refreshToken}) async {
     final response = await dio.post(
       AuthEndpoints.refreshToken,
-      data: jsonEncode({'refresh_token': refreshToken}),
+      data: jsonEncode({'refreshToken': refreshToken}),
       options: Options(extra: {'ignoredToken': true}),
     );
     return AuthModel.fromJson(response.data as Map<String, dynamic>);
