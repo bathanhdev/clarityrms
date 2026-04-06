@@ -33,7 +33,7 @@ class _AnimatedWaveScreenState extends State<AnimatedWaveScreen>
     return Scaffold(
       body: Stack(
         children: [
-          CustomPaint(size: Size.infinite, painter: WavePainter(context)),
+          // CustomPaint(size: Size.infinite, painter: WavePainter(context)),
           AnimatedBuilder(
             animation: _controller,
             builder: (context, child) {
