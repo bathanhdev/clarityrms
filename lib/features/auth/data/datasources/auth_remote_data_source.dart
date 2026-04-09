@@ -6,6 +6,13 @@ import 'package:dio/dio.dart';
 abstract class AuthRemoteDataSource {
   Future<AuthModel> login(String username, String password);
 
+  Future<AuthModel> socialLogin({
+    required String provider,
+    required String token,
+    String? email,
+    String? displayName,
+  });
+
   Future<AuthModel> refreshToken(String refreshToken);
 
   Future<void> logout();
@@ -20,6 +27,30 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<AuthModel> login(String username, String password) async {
     try {
       return await serviceClient.login(username: username, password: password);
+    } on DioException catch (e) {
+      throw ServerException(
+        message: e.response?.data['message'] ?? 'Lỗi kết nối Server',
+        statusCode: e.response?.statusCode,
+      );
+    } catch (e) {
+      throw ServerException(message: 'Lỗi không xác định: $e');
+    }
+  }
+
+  @override
+  Future<AuthModel> socialLogin({
+    required String provider,
+    required String token,
+    String? email,
+    String? displayName,
+  }) async {
+    try {
+      return await serviceClient.socialLogin(
+        provider: provider,
+        token: token,
+        email: email,
+        displayName: displayName,
+      );
     } on DioException catch (e) {
       throw ServerException(
         message: e.response?.data['message'] ?? 'Lỗi kết nối Server',

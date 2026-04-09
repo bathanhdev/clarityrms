@@ -6,15 +6,19 @@ import 'package:clarityrms/features/auth/domain/usecases/check_auth_status_useca
 import 'package:clarityrms/features/auth/domain/usecases/login_user_usecase.dart';
 import 'package:clarityrms/features/auth/domain/usecases/logout_user_usecase.dart';
 import 'package:clarityrms/features/auth/domain/usecases/params/login_params.dart';
+import 'package:clarityrms/features/auth/domain/usecases/params/social_login_params.dart';
+import 'package:clarityrms/features/auth/domain/usecases/social_login_usecase.dart';
 import 'package:clarityrms/core/global_state/auth/auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final LoginUserUseCase loginUser;
+  final SocialLoginUseCase socialLoginUser;
   final CheckAuthStatusUseCase checkAuthStatus;
   final LogoutUserUseCase logoutUser;
 
   AuthCubit({
     required this.loginUser,
+    required this.socialLoginUser,
     required this.checkAuthStatus,
     required this.logoutUser,
   }) : super(const AuthInitial());
@@ -29,8 +33,6 @@ class AuthCubit extends Cubit<AuthState> {
 
     // checkAuthStatus giờ trả về Future<bool>
     final isAuthenticated = await checkAuthStatus(NoParams());
-
-    await Future.delayed(Duration(seconds: 2));
 
     // XÓA .fold() - Chỉ cần kiểm tra kết quả bool
     if (isAuthenticated) {
@@ -51,9 +53,34 @@ class AuthCubit extends Cubit<AuthState> {
     // result là APIResponse<AuthEntity>
     final result = await loginUser(params);
 
-    await Future.delayed(Duration(seconds: 2));
-
     // SỬ DỤNG .when() CỦA FREEZED
+    result.when(
+      success: (authEntity, statusCode) {
+        emit(const AuthAuthenticated());
+      },
+      failure: (errorDetail) {
+        emit(AuthError(errorDetail.message));
+      },
+    );
+  }
+
+  Future<void> loginWithSocial(
+    SocialAuthProvider provider, {
+    required String token,
+    String? email,
+    String? displayName,
+  }) async {
+    emit(const AuthLoading());
+
+    final params = SocialLoginParams(
+      provider: provider,
+      token: token,
+      email: email,
+      displayName: displayName,
+    );
+
+    final result = await socialLoginUser(params);
+
     result.when(
       success: (authEntity, statusCode) {
         emit(const AuthAuthenticated());

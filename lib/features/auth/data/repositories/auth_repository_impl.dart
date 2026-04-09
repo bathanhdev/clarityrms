@@ -7,6 +7,7 @@ import 'package:clarityrms/features/auth/data/models/auth_model.dart';
 import 'package:clarityrms/features/auth/domain/entities/auth_entity.dart';
 import 'package:clarityrms/features/auth/domain/repositories/auth_repository.dart';
 import 'package:clarityrms/features/auth/data/models/auth_model_mapper.dart';
+import 'package:clarityrms/features/auth/domain/usecases/params/social_login_params.dart';
 import 'package:clarityrms/core/utils/log_util.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -43,6 +44,24 @@ class AuthRepositoryImpl implements AuthRepository {
           refreshToken: "refreshToken",
           expiresIn: DateTime.now().millisecondsSinceEpoch,
         );
+      },
+    );
+  }
+
+  @override
+  Future<APIResponse<AuthEntity>> socialLogin(SocialLoginParams params) async {
+    return handleNetworkCall<AuthEntity>(
+      networkInfo: networkInfo,
+      apiCall: () async {
+        final AuthModel authModel = await remoteDataSource.socialLogin(
+          provider: params.provider.name,
+          token: params.token,
+          email: params.email,
+          displayName: params.displayName,
+        );
+        await localDataSource.cacheAccessToken(authModel.accessToken);
+        await localDataSource.cacheRefreshToken(authModel.refreshToken);
+        return authModel.toEntity();
       },
     );
   }

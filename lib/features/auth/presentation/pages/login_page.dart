@@ -5,6 +5,7 @@ import 'package:clarityrms/core/ui/app_spacing.dart';
 import 'package:clarityrms/core/ui/app_radius.dart';
 import 'package:clarityrms/core/global_state/auth/auth_cubit.dart';
 import 'package:clarityrms/core/global_state/auth/auth_state.dart';
+import 'package:clarityrms/features/auth/presentation/helpers/google_login_helper.dart';
 import 'package:clarityrms/shared/widgets/network_status.dart';
 import 'package:clarityrms/core/infrastructure/helpers/ui_helper.dart';
 import 'package:clarityrms/shared/generated/assets.gen.dart';
@@ -231,12 +232,10 @@ class _LoginPageState extends State<LoginPage> {
                               children: [
                                 Expanded(
                                   child: OutlinedButton.icon(
-                                    onPressed: () {
-                                      UIHelper.showAppSnackBar(
-                                        context,
-                                        'Đăng nhập với Google tạm thời chưa hỗ trợ',
-                                      );
-                                    },
+                                    onPressed: () => performGoogleLogin(
+                                      context,
+                                      context.read<AuthCubit>(),
+                                    ),
                                     icon: const Icon(Icons.login),
                                     label: const Text('Google'),
                                   ),
@@ -247,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                                     onPressed: () {
                                       UIHelper.showAppSnackBar(
                                         context,
-                                        'Đăng nhập với Facebook tạm thời chưa hỗ trợ',
+                                        'Đăng nhập với Facebook chưa được tích hợp',
                                       );
                                     },
                                     icon: const Icon(Icons.login),

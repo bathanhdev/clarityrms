@@ -21,6 +21,26 @@ class AuthServiceClient extends ApiClient {
     return AuthModel.fromJson(response.data as Map<String, dynamic>);
   }
 
+  Future<AuthModel> socialLogin({
+    required String provider,
+    required String token,
+    String? email,
+    String? displayName,
+  }) async {
+    final data = {
+      'provider': provider,
+      'token': token,
+      if (email != null) 'email': email,
+      if (displayName != null) 'displayName': displayName,
+    };
+    final response = await dio.post(
+      AuthEndpoints.socialLogin,
+      data: jsonEncode(data),
+      options: Options(extra: {'ignoredToken': true}),
+    );
+    return AuthModel.fromJson(response.data as Map<String, dynamic>);
+  }
+
   Future<AuthModel> refreshToken({required String refreshToken}) async {
     final response = await dio.post(
       AuthEndpoints.refreshToken,

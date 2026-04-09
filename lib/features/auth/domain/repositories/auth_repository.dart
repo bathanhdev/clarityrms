@@ -1,5 +1,6 @@
 import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/features/auth/domain/entities/auth_entity.dart';
+import 'package:clarityrms/features/auth/domain/usecases/params/social_login_params.dart';
 
 /// Interface cho Auth Repository. Nằm ở Tầng Domain.
 /// Tất cả các phương thức mạng trả về [APIResponse], các phương thức cục bộ trả về kết quả thuần túy.
@@ -9,6 +10,9 @@ abstract class AuthRepository {
     required String username,
     required String password,
   });
+
+  // 1B. SOCIAL LOGIN
+  Future<APIResponse<AuthEntity>> socialLogin(SocialLoginParams params);
 
   // 2. REFRESH TOKEN
   Future<APIResponse<AuthEntity>> refreshToken(String refreshToken);

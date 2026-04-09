@@ -12,7 +12,12 @@ void registerGlobalStateDependencies() {
 
   if (!sl.isRegistered<AuthCubit>()) {
     sl.registerLazySingleton<AuthCubit>(
-      () => AuthCubit(loginUser: sl(), checkAuthStatus: sl(), logoutUser: sl()),
+      () => AuthCubit(
+        loginUser: sl(),
+        socialLoginUser: sl(),
+        checkAuthStatus: sl(),
+        logoutUser: sl(),
+      ),
     );
   }
 

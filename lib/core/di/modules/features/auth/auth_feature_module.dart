@@ -7,6 +7,7 @@ import 'package:clarityrms/features/auth/domain/repositories/auth_repository.dar
 import 'package:clarityrms/features/auth/domain/usecases/check_auth_status_usecase.dart';
 import 'package:clarityrms/features/auth/domain/usecases/login_user_usecase.dart';
 import 'package:clarityrms/features/auth/domain/usecases/logout_user_usecase.dart';
+import 'package:clarityrms/features/auth/domain/usecases/social_login_usecase.dart';
 import 'package:clarityrms/core/di/locator.dart';
 import 'package:clarityrms/features/auth/data/datasources/auth_local_data_source.dart';
 
@@ -46,6 +47,7 @@ void registerAuthModuleDependencies() {
     }
 
     sl.registerFactory(() => LoginUserUseCase(repository: sl()));
+    sl.registerFactory(() => SocialLoginUseCase(repository: sl()));
     sl.registerFactory(() => CheckAuthStatusUseCase(repository: sl()));
     sl.registerFactory(() => LogoutUserUseCase(repository: sl()));
   }

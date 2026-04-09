@@ -4,6 +4,7 @@ import 'package:clarityrms/core/usecases/usecase.dart';
 import 'package:clarityrms/features/auth/domain/usecases/check_auth_status_usecase.dart';
 import 'package:clarityrms/features/auth/domain/usecases/login_user_usecase.dart';
 import 'package:clarityrms/features/auth/domain/usecases/logout_user_usecase.dart';
+import 'package:clarityrms/features/auth/domain/usecases/social_login_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:clarityrms/features/auth/domain/entities/auth_entity.dart';
@@ -18,6 +19,8 @@ class MockCheckAuthStatusUseCase extends Mock
 
 class MockLogoutUserUseCase extends Mock implements LogoutUserUseCase {}
 
+class MockSocialLoginUseCase extends Mock implements SocialLoginUseCase {}
+
 class NoParamsFake extends Fake implements NoParams {}
 
 class LoginParamsFake extends Fake implements LoginParams {}
@@ -31,11 +34,13 @@ void main() {
   late MockLoginUserUseCase mockLogin;
   late MockCheckAuthStatusUseCase mockCheckAuth;
   late MockLogoutUserUseCase mockLogout;
+  late MockSocialLoginUseCase mockSocialLogin;
 
   setUp(() {
     mockLogin = MockLoginUserUseCase();
     mockCheckAuth = MockCheckAuthStatusUseCase();
     mockLogout = MockLogoutUserUseCase();
+    mockSocialLogin = MockSocialLoginUseCase();
   });
 
   test(
@@ -45,6 +50,7 @@ void main() {
 
       final cubit = AuthCubit(
         loginUser: mockLogin,
+        socialLoginUser: mockSocialLogin,
         checkAuthStatus: mockCheckAuth,
         logoutUser: mockLogout,
       );
@@ -65,6 +71,7 @@ void main() {
 
       final cubit = AuthCubit(
         loginUser: mockLogin,
+        socialLoginUser: mockSocialLogin,
         checkAuthStatus: mockCheckAuth,
         logoutUser: mockLogout,
       );
@@ -90,6 +97,7 @@ void main() {
 
     final cubit = AuthCubit(
       loginUser: mockLogin,
+      socialLoginUser: mockSocialLogin,
       checkAuthStatus: mockCheckAuth,
       logoutUser: mockLogout,
     );
@@ -110,6 +118,7 @@ void main() {
 
     final cubit = AuthCubit(
       loginUser: mockLogin,
+      socialLoginUser: mockSocialLogin,
       checkAuthStatus: mockCheckAuth,
       logoutUser: mockLogout,
     );
@@ -129,6 +138,7 @@ void main() {
 
     final cubit = AuthCubit(
       loginUser: mockLogin,
+      socialLoginUser: mockSocialLogin,
       checkAuthStatus: mockCheckAuth,
       logoutUser: mockLogout,
     );
@@ -151,6 +161,7 @@ void main() {
 
       final cubit = AuthCubit(
         loginUser: mockLogin,
+        socialLoginUser: mockSocialLogin,
         checkAuthStatus: mockCheckAuth,
         logoutUser: mockLogout,
       );
