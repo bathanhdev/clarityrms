@@ -9,6 +9,7 @@ import 'package:clarityrms/core/ui/app_radius.dart';
 import 'package:clarityrms/core/infrastructure/helpers/ui_helper.dart';
 import 'package:clarityrms/core/global_state/auth/auth_cubit.dart';
 import 'package:clarityrms/core/global_state/auth/auth_state.dart';
+import 'package:clarityrms/features/auth/presentation/helpers/facebook_login_helper.dart';
 import 'package:clarityrms/shared/generated/assets.gen.dart';
 import 'package:clarityrms/shared/widgets/common_button.dart';
 import 'package:clarityrms/shared/constants/hero_tags.dart';
@@ -216,12 +217,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 AppSpacing.horizontalSpaceMd,
                                 Expanded(
                                   child: OutlinedButton.icon(
-                                    onPressed: () {
-                                      UIHelper.showAppSnackBar(
-                                        context,
-                                        'Đăng ký với Facebook chưa được tích hợp',
-                                      );
-                                    },
+                                    onPressed: () => performFacebookLogin(
+                                      context,
+                                      context.read<AuthCubit>(),
+                                    ),
                                     icon: const Icon(Icons.login),
                                     label: const Text('Facebook'),
                                   ),

@@ -11,7 +11,7 @@ Future<void> performGoogleLogin(
 ) async {
   UIHelper.hideKeyboard(context);
 
-  if (kIsWeb) {
+  if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
     UIHelper.showAppSnackBar(
       context,
       'Đăng nhập Google hiện chỉ hỗ trợ Android.',
