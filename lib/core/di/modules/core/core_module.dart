@@ -2,6 +2,7 @@ import 'package:clarityrms/config/app_config.dart';
 import 'package:clarityrms/core/constants/app_durations.dart';
 import 'package:clarityrms/core/infrastructure/network/network.dart';
 import 'package:clarityrms/core/infrastructure/network/interceptors/auth_logout_handler.dart';
+import 'package:clarityrms/core/infrastructure/update/shorebird_update_service.dart';
 import 'package:clarityrms/core/router/app_router.dart';
 import 'package:clarityrms/core/utils/log_util.dart';
 import 'package:dio/dio.dart';
@@ -12,9 +13,18 @@ void registerCoreAndExternalDependencies() {
   _registerAppConfig();
   _registerNetworkInfo();
   _registerRouter();
+  _registerShorebirdUpdateService();
   _registerNetworkInfrastructure();
 
   Log.d('Core & external dependencies registered (high level).', name: 'DI');
+}
+
+void _registerShorebirdUpdateService() {
+  if (!sl.isRegistered<ShorebirdUpdateService>()) {
+    sl.registerLazySingleton<ShorebirdUpdateService>(
+      () => ShorebirdUpdateService(),
+    );
+  }
 }
 
 void _registerNetworkInfrastructure() {

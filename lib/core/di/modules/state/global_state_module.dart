@@ -1,4 +1,5 @@
 import 'package:clarityrms/core/global_state/auth/auth_cubit.dart';
+import 'package:clarityrms/core/global_state/clock/clock_cubit.dart';
 import 'package:clarityrms/core/global_state/network/network_cubit.dart';
 import 'package:clarityrms/core/global_state/theme/theme_cubit.dart';
 import 'package:clarityrms/core/di/locator.dart';
@@ -8,6 +9,10 @@ void registerGlobalStateDependencies() {
     sl.registerLazySingleton<NetworkCubit>(
       () => NetworkCubit(networkInfo: sl()),
     );
+  }
+
+  if (!sl.isRegistered<ClockCubit>()) {
+    sl.registerLazySingleton<ClockCubit>(() => ClockCubit());
   }
 
   if (!sl.isRegistered<AuthCubit>()) {

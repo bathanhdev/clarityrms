@@ -2,18 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clarityrms/core/ui/app_spacing.dart';
-import 'package:clarityrms/core/ui/app_radius.dart';
 import 'package:clarityrms/core/global_state/auth/auth_cubit.dart';
 import 'package:clarityrms/core/global_state/auth/auth_state.dart';
-import 'package:clarityrms/features/auth/presentation/helpers/facebook_login_helper.dart';
-import 'package:clarityrms/features/auth/presentation/helpers/google_login_helper.dart';
+import 'package:clarityrms/features/auth/presentation/widgets/auth_error_listener.dart';
+import 'package:clarityrms/features/auth/presentation/widgets/auth_page_header.dart';
+import 'package:clarityrms/features/auth/presentation/widgets/auth_page_shell.dart';
+import 'package:clarityrms/features/auth/presentation/widgets/auth_social_login_buttons.dart';
 import 'package:clarityrms/shared/widgets/network_status.dart';
 import 'package:clarityrms/core/infrastructure/helpers/ui_helper.dart';
-import 'package:clarityrms/shared/generated/assets.gen.dart';
-import 'package:clarityrms/core/ui/app_dimensions.dart';
 import 'package:clarityrms/shared/widgets/common_button.dart';
-import 'package:clarityrms/shared/widgets/transparent_app_bar.dart';
-import 'package:clarityrms/shared/constants/hero_tags.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -57,214 +54,119 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is AuthError) {
-          UIHelper.showAppSnackBar(
-            context,
-            state.message,
-            backgroundColor: Theme.of(context).colorScheme.error,
-          );
-        }
-      },
-      child: Scaffold(
-        appBar: const TransparentAppBar(),
-        extendBodyBehindAppBar: true,
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Theme.of(context).colorScheme.primary.withAlpha(28),
-                Theme.of(context).colorScheme.primaryContainer.withAlpha(18),
+  Widget _buildCredentialsForm(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _usernameController,
+            decoration: const InputDecoration(
+              labelText: 'Tên người dùng',
+              prefixIcon: Icon(Icons.person),
+            ),
+            validator: (value) => (value == null || value.isEmpty)
+                ? 'Vui lòng nhập tên người dùng'
+                : null,
+          ),
+          AppSpacing.verticalSpaceMd,
+          TextFormField(
+            controller: _passwordController,
+            obscureText: true,
+            decoration: const InputDecoration(
+              labelText: 'Mật khẩu',
+              prefixIcon: Icon(Icons.lock),
+            ),
+            validator: (value) => (value == null || value.isEmpty)
+                ? 'Vui lòng nhập mật khẩu'
+                : null,
+          ),
+          AppSpacing.verticalSpaceLg,
+          _buildRememberAndForgotRow(context),
+          AppSpacing.verticalSpaceLg,
+          BlocBuilder<AuthCubit, AuthState>(
+            buildWhen: (previous, current) =>
+                previous.runtimeType != current.runtimeType,
+            builder: (context, state) {
+              final bool isLoading = state is AuthLoading;
+              return _buildLoginButton(isLoading);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRememberAndForgotRow(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: () => setState(() => _rememberMe = !_rememberMe),
+            child: Row(
+              children: [
+                Checkbox(
+                  value: _rememberMe,
+                  onChanged: (v) => setState(() => _rememberMe = v ?? false),
+                ),
+                const Flexible(
+                  child: Text(
+                    'Ghi nhớ đăng nhập',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
               ],
             ),
           ),
-          child: Center(
-            child: SingleChildScrollView(
-              padding: AppSpacing.screenPadding,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppRadius.borderRadiusMd,
-                ),
-                elevation: 8,
-                child: Padding(
-                  padding: AppSpacing.screenPadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Hero(
-                              tag: HeroTags.appLogo,
-                              child: Assets.images.logo.image(
-                                height: AppDimensions.logoSize * 0.75,
-                              ),
-                            ),
-                            AppSpacing.verticalSpaceSm,
-                            Text(
-                              'Chào mừng trở lại',
-                              style: Theme.of(context).textTheme.titleLarge
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w800,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
-                            ),
-                            AppSpacing.verticalSpaceXs,
-                            Text(
-                              'Đăng nhập để tiếp tục',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(height: AppSpacing.lg),
-
-                      Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: _usernameController,
-                              decoration: const InputDecoration(
-                                labelText: 'Tên người dùng',
-                                prefixIcon: Icon(Icons.person),
-                              ),
-                              validator: (value) =>
-                                  (value == null || value.isEmpty)
-                                  ? 'Vui lòng nhập tên người dùng'
-                                  : null,
-                            ),
-                            AppSpacing.verticalSpaceMd,
-                            TextFormField(
-                              controller: _passwordController,
-                              obscureText: true,
-                              decoration: const InputDecoration(
-                                labelText: 'Mật khẩu',
-                                prefixIcon: Icon(Icons.lock),
-                              ),
-                              validator: (value) =>
-                                  (value == null || value.isEmpty)
-                                  ? 'Vui lòng nhập mật khẩu'
-                                  : null,
-                            ),
-
-                            AppSpacing.verticalSpaceLg,
-
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () => setState(
-                                      () => _rememberMe = !_rememberMe,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Checkbox(
-                                          value: _rememberMe,
-                                          onChanged: (v) => setState(
-                                            () => _rememberMe = v ?? false,
-                                          ),
-                                        ),
-                                        const Flexible(
-                                          child: Text(
-                                            'Ghi nhớ đăng nhập',
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    UIHelper.showAppSnackBar(
-                                      context,
-                                      'Quên mật khẩu chưa được hỗ trợ',
-                                    );
-                                  },
-                                  child: const Text('Quên mật khẩu?'),
-                                ),
-                              ],
-                            ),
-
-                            AppSpacing.verticalSpaceLg,
-
-                            BlocBuilder<AuthCubit, AuthState>(
-                              buildWhen: (previous, current) =>
-                                  previous.runtimeType != current.runtimeType,
-                              builder: (context, state) {
-                                final bool isLoading = state is AuthLoading;
-                                return _buildLoginButton(isLoading);
-                              },
-                            ),
-
-                            AppSpacing.verticalSpaceMd,
-
-                            const NetworkStatus(),
-
-                            AppSpacing.verticalSpaceLg,
-
-                            Row(
-                              children: [
-                                Expanded(child: Divider()),
-                                Padding(
-                                  padding: AppSpacing.paddingHorizontalSm,
-                                  child: Text('Hoặc'),
-                                ),
-                                Expanded(child: Divider()),
-                              ],
-                            ),
-
-                            AppSpacing.verticalSpaceMd,
-
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: OutlinedButton.icon(
-                                    onPressed: () => performGoogleLogin(
-                                      context,
-                                      context.read<AuthCubit>(),
-                                    ),
-                                    icon: const Icon(Icons.login),
-                                    label: const Text('Google'),
-                                  ),
-                                ),
-                                AppSpacing.horizontalSpaceMd,
-                                Expanded(
-                                  child: OutlinedButton.icon(
-                                    onPressed: () => performFacebookLogin(
-                                      context,
-                                      context.read<AuthCubit>(),
-                                    ),
-                                    icon: const Icon(Icons.login),
-                                    label: const Text('Facebook'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
         ),
+        TextButton(
+          onPressed: () {
+            UIHelper.showAppSnackBar(context, 'Quên mật khẩu chưa được hỗ trợ');
+          },
+          child: const Text('Quên mật khẩu?'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDivider() {
+    return Row(
+      children: [
+        const Expanded(child: Divider()),
+        Padding(
+          padding: AppSpacing.paddingHorizontalSm,
+          child: const Text('Hoặc'),
+        ),
+        const Expanded(child: Divider()),
+      ],
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return AuthPageShell(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const AuthPageHeader(
+            title: 'Chào mừng trở lại',
+            subtitle: 'Đăng nhập để tiếp tục',
+          ),
+          SizedBox(height: AppSpacing.lg),
+          _buildCredentialsForm(context),
+          AppSpacing.verticalSpaceMd,
+          const NetworkStatus(),
+          AppSpacing.verticalSpaceLg,
+          _buildDivider(),
+          AppSpacing.verticalSpaceMd,
+          const AuthSocialLoginButtons(),
+        ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AuthErrorListener(child: Scaffold(body: _buildBody(context)));
   }
 }

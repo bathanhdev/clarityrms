@@ -45,7 +45,7 @@ class SunMoonSwitch extends StatelessWidget {
         child: Center(
           child: Icon(
             isDark ? Icons.nights_stay : Icons.sunny,
-            size: size * .8,
+            size: size * .6,
             color: isDark ? Colors.blue : Colors.yellow[800],
           ),
         ),

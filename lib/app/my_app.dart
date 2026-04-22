@@ -1,4 +1,5 @@
 import 'package:clarityrms/core/global_state/auth/auth_cubit.dart';
+import 'package:clarityrms/core/global_state/clock/clock_cubit.dart';
 import 'package:clarityrms/core/global_state/network/network_cubit.dart';
 import 'package:clarityrms/core/infrastructure/helpers/ui_helper.dart';
 import 'package:clarityrms/core/router/app_router.dart';
@@ -28,12 +29,17 @@ class MyApp extends StatelessWidget {
             create: (_) => sl<NetworkCubit>(),
             lazy: false,
           ),
-          // 2. Cung cấp AuthCubit
+          // 2. Cung cấp ClockCubit
+          BlocProvider<ClockCubit>(
+            create: (_) => sl<ClockCubit>(),
+            lazy: false,
+          ),
+          // 3. Cung cấp AuthCubit
           BlocProvider<AuthCubit>(
             create: (context) => sl<AuthCubit>()..appStarted(),
             lazy: false,
           ),
-          // 3. Cung cấp ThemeCubit
+          // 4. Cung cấp ThemeCubit
           BlocProvider<ThemeCubit>(
             create: (_) => sl<ThemeCubit>(),
             lazy: false,
