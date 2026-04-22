@@ -68,6 +68,56 @@ jobs:
           FIREBASE_API_KEY=$FIREBASE_API_KEY
           EOF
 
+      - name: Write firebase_options.dart from secrets
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+        run: |
+          cat > lib/firebase_options.dart <<EOF
+          // File generated in CI from GitHub Secrets. Do not commit this file.
+          // ignore_for_file: type=lint
+          import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
+          import 'package:flutter/foundation.dart'
+              show defaultTargetPlatform, kIsWeb, TargetPlatform;
+
+          class DefaultFirebaseOptions {
+            static FirebaseOptions get currentPlatform {
+              if (kIsWeb) {
+                throw UnsupportedError(
+                  'Firebase options have not been configured for web.',
+                );
+              }
+
+              switch (defaultTargetPlatform) {
+                case TargetPlatform.android:
+                  return android;
+                case TargetPlatform.iOS:
+                case TargetPlatform.macOS:
+                case TargetPlatform.windows:
+                case TargetPlatform.linux:
+                  throw UnsupportedError(
+                    'Firebase options are only configured for Android in CI.',
+                  );
+                default:
+                  throw UnsupportedError(
+                    'Firebase options are not supported for this platform.',
+                  );
+              }
+            }
+
+            static const FirebaseOptions android = FirebaseOptions(
+              apiKey: '$FIREBASE_API_KEY',
+              appId: '$FIREBASE_APP_ID',
+              messagingSenderId: '$FIREBASE_MESSAGING_SENDER_ID',
+              projectId: '$FIREBASE_PROJECT_ID',
+              storageBucket: '$FIREBASE_STORAGE_BUCKET',
+            );
+          }
+          EOF
+
       - name: Codegen (build_runner)
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
