@@ -34,7 +34,9 @@ class SunMoonSwitch extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: isDark ? 0.18 : 0.08),
+              color: isDark
+                  ? Colors.blue.withValues(alpha: .25)
+                  : Colors.yellow.withValues(alpha: .25),
               blurRadius: isDark ? 24 : 10,
               offset: Offset(0, isDark ? 10 : 4),
             ),
