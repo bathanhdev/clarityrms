@@ -20,5 +20,6 @@ class AppRouter {
   static String get auth => AppRoutes.auth;
   static String get login => AppRoutes.login;
   static String get register => AppRoutes.register;
+  static String get forgotPassword => AppRoutes.forgotPassword;
   static String get home => AppRoutes.home;
 }

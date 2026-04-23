@@ -4,6 +4,7 @@ import 'package:clarityrms/core/di/locator.dart';
 // Route logging uses a NavigatorObserver; kept imports minimal here.
 
 import 'package:clarityrms/features/auth/presentation/pages/auth_page.dart';
+import 'package:clarityrms/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:clarityrms/features/auth/presentation/pages/register_page.dart';
 import 'package:clarityrms/shared/components/splash_widget.dart';
 import 'package:clarityrms/features/auth/presentation/pages/login_page.dart';
@@ -41,6 +42,10 @@ GoRouter createGoRouter() {
         builder: (context, state) => const RegisterPage(),
       ),
       GoRoute(
+        path: AppRoutes.forgotPassword,
+        builder: (context, state) => const ForgotPasswordPage(),
+      ),
+      GoRoute(
         path: AppRoutes.home,
         builder: (context, state) => const HomePage(),
       ),
@@ -57,6 +62,7 @@ GoRouter createGoRouter() {
         AppRoutes.auth,
         AppRoutes.login,
         AppRoutes.register,
+        AppRoutes.forgotPassword,
       ].any((r) => state.matchedLocation.startsWith(r));
 
       if (isChecking) return null;

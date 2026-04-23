@@ -160,7 +160,7 @@ class AuthPage extends StatelessWidget {
                       onPressed: () =>
                           GoRouter.of(context).push(AppRouter.register),
                     ),
-                    AppSpacing.verticalSpaceSm,
+                    AppSpacing.verticalSpaceMd,
                     const Center(child: ThemeToggle()),
                   ],
                 ),

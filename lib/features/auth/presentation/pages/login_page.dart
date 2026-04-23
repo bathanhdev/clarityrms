@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clarityrms/core/ui/app_spacing.dart';
 import 'package:clarityrms/core/global_state/auth/auth_cubit.dart';
 import 'package:clarityrms/core/global_state/auth/auth_state.dart';
+import 'package:clarityrms/core/router/app_router.dart';
 import 'package:clarityrms/features/auth/presentation/widgets/auth_error_listener.dart';
 import 'package:clarityrms/features/auth/presentation/widgets/auth_page_header.dart';
 import 'package:clarityrms/features/auth/presentation/widgets/auth_page_shell.dart';
@@ -11,6 +12,7 @@ import 'package:clarityrms/features/auth/presentation/widgets/auth_social_login_
 import 'package:clarityrms/shared/widgets/network_status.dart';
 import 'package:clarityrms/core/infrastructure/helpers/ui_helper.dart';
 import 'package:clarityrms/shared/widgets/common_button.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -122,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         TextButton(
           onPressed: () {
-            UIHelper.showAppSnackBar(context, 'Quên mật khẩu chưa được hỗ trợ');
+            GoRouter.of(context).push(AppRouter.forgotPassword);
           },
           child: const Text('Quên mật khẩu?'),
         ),
