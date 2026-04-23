@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clarityrms/core/global_state/auth/auth_cubit.dart';
 import 'package:clarityrms/features/home/presentation/cubit/home_cubit.dart';
 import 'package:clarityrms/features/home/presentation/cubit/home_state.dart';
+import 'package:clarityrms/shared/widgets/flow_menu.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -30,6 +31,25 @@ class HomePage extends StatelessWidget {
               icon: const Icon(Icons.logout),
               onPressed: () => _performLogout(context),
               tooltip: 'Đăng xuất',
+            ),
+          ],
+        ),
+        floatingActionButton: FlowMenu(
+          actions: [
+            FlowMenuAction(
+              icon: const Icon(Icons.camera),
+              onPressed: () {},
+              tooltip: 'Camera',
+            ),
+            FlowMenuAction(
+              icon: const Icon(Icons.photo),
+              onPressed: () {},
+              tooltip: 'Ảnh',
+            ),
+            FlowMenuAction(
+              icon: const Icon(Icons.video_call),
+              onPressed: () {},
+              tooltip: 'Video',
             ),
           ],
         ),
