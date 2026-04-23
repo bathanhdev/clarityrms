@@ -186,6 +186,7 @@ Gợi ý: nếu gặp lỗi codegen do conflict, chạy `flutter pub run build_r
 
 - Sử dụng `envied` để quản lý biến môi trường; file generated: [lib/config/env.g.dart](lib/config/env.g.dart#L1).
 - Local env files: `assets/env/.env.dev`, `assets/env/.env.prod` (đã ignore trong `.gitignore`). Không commit secrets.
+- Sau khi clone repo, chạy `dart tools/bootstrap_local.dart` để tạo các file local cần thiết nếu chúng chưa tồn tại. Dùng `--force` nếu muốn ghi đè lại file bootstrap-generated.
 
 ---
 
